@@ -42,7 +42,7 @@ L(1) = Link([0, 0, 0, 0]);
 L(2) = Link([10*DR, 0, 1, 0]);     
 L(3) = Link([20*DR, 0, 1, 0]);
 L(4) = Link([30*DR, 0, 0.5, 0]);
-% The attributes for Link() in order is: theta(joint angle), d(offset),
+% The attributes for Link() in order are: theta(joint angle), d(offset),
 % a(length), alpha(twist). Refer to Croke's book.
 
 robot3R = SerialLink(L, 'name', '3R_ROT');
