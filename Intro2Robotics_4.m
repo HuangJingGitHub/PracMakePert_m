@@ -1,5 +1,5 @@
 %%% Algebraic solution for the inverse kinematics of a 3R planar
-%%% manipulator. (Craig's book chapter4.
+%%% manipulator. (Craig's book chapter4)
 %%% Given a transformation matrix from base frame to wrist
 %%% frame Tb_w = [cos(phi) -sin(phi) 0 x;
 %%%              [sin(phi) cos(phi)  0 y;
