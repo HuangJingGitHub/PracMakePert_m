@@ -90,7 +90,7 @@ xlabel('\fontsize{13}\fontname{Times}Time (s)');
 ylabel('\fontsize{13}\fontname{Times}|J|');
 
 
-%%% Use Crole's toolbox to animate robot's motion
+%%% Use Croke's toolbox to animate robot's motion
 L(1) = Link([0, 0, 0, 0]);    % Start from link0(base).
 L(2) = Link([0, 0, L1, 0]);     
 L(3) = Link([0, 0, L2, 0]);
