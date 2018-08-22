@@ -1,5 +1,5 @@
-%%% Ideal simple simulated resolved-rate control for a planar 3-DOF, 3R
-%%% robot.
+%%% Ideal simple simulated resolved-rate control for a planar 3-DOF, 3R %%%
+%%% robot. %%%
 %%% Describtions on John Craig's book chapter5, page 173-175 (4th edition).
 %%% Given desired constant Cartesian velocity, wrench of the end-effector,
 %%% calculate the command angle vector during the simulation interval.
