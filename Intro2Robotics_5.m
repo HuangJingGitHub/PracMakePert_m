@@ -6,13 +6,13 @@ clear
 close all
 clc
 
-%%% Robot configuration
+%%% Robot configurations
 DR = pi/180;
 L1 = 4;
 L2 = 3;
 L3 = 2;
 
-%%% Simulation configuration
+%%% Simulation configurations
 Time = 5;
 dt = 0.1;
 t = 0:dt:Time;
