@@ -69,7 +69,7 @@ h1=legend('$\dot{\theta_1}$',...
           '$\dot{\theta_3}$',0);
 set(h1,'interpreter','latex','Box','off','fontsize',18);
 
-%%% theta vs time
+%%% (2) theta vs time
 figure('position',[0 -200 1200 800]);
 plot(t, ang(1,:),'color','k','linewidth',2);
 hold on
@@ -83,7 +83,7 @@ h1=legend('$\theta_1$',...
           '$\theta_3$',0);
 set(h1,'interpreter','latex','Box','off','fontsize',18);
 
-%%% absolute value of determinant |J| vs time
+%%% (3) absolute value of determinant |J| vs time
 figure('position',[0 -200 1200 800]);
 plot(t(1:Len-1), det_J(1:Len-1),'color','k','linewidth',2);
 xlabel('\fontsize{13}\fontname{Times}Time (s)');
