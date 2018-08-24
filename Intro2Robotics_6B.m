@@ -1,6 +1,6 @@
 %%% Inverse-dynamics solution for the plannar 3-DOF, 3R robot for a motion snapshot
 %%% in time only. The iterative Newton-Euler dynamics algorithm.
-%%% Describtions on John Craig's book chapter6, page 212 (4th edition).
+%%% Describtions in John Craig's book chapter6, page 212 (4th edition).
 clear
 close all
 clc
