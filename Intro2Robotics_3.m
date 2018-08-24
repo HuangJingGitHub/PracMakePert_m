@@ -3,7 +3,7 @@ close all
 
 DR = pi/180;
 %%% T is the transformation matrix from frame{i-1} to frame{i}
-%%% and is obtained from to Craig's book page75
+%%% and is obtained from Craig's book page75
 syms alp a the d
 Rx = [ 1 0        0         0; 
        0 cos(alp) -sin(alp) 0;
