@@ -1,4 +1,10 @@
-%%%
+%%% Given a constant velocity of the end effector of a 2R plannar robot,
+%%% calculate the command joint torques in a time interval. Combination
+%%% of inverse kinematics and inverse dynamics (iterative Newton-Euler
+%%% dynamics algorithm)
+%%% Describtions in John Craig's book chapter6, page 211-212 (4th edition).
+%%% HUANG Jing @CUHK MAE, August 2018
+
 clear
 close all
 clc
@@ -105,6 +111,8 @@ h1=legend('$\dot{\theta_1}$','$\dot{\theta_2}$',0);
 set(h1,'interpreter','latex','Box','off','fontsize',18);
 
 %%% (3) joint accelerations vs time
+%%% As can be seen, the initial acceleration from static state to 
+%%% motion could be quite large.
 figure('position',[0 -250 1450 850]);
 plot(t(2:Len), qdd(1,2:Len),'color','b','linewidth',2);
 hold on
@@ -136,5 +144,3 @@ ylabel('$Joint$ $Torques$ $N{\cdot}m$','interpreter','latex','fontsize',15);
 h1=legend('${\tau_1}$','${\tau_2}$',0);
 set(h1,'interpreter','latex','Box','off','fontsize',18);
         
-
-
