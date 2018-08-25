@@ -32,6 +32,6 @@ for loop = 2:Len
     % Suppose the commanded joint angles are perfectly achieved.
     X(:,loop) = [L1*cos(q1)+L2*cos(q12), L1*sin(q1)+L2*sin(q12),q12]';
 end
-q = q(:,1:Len);        % Delete the last column of q generated in the loop to keep constant dimension
+q = q(:,1:Len);        % Delete the last column of q generated in the loop to keep consistent dimension
                        % of matrices.
 end
