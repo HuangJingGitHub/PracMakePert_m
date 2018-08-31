@@ -23,7 +23,7 @@ av1 = [ a1(2) 2*a1(3) 3*a1(4) ];
 aa1 = [ 2*a1(3) 6*a1(4)];
 
 %%% Vectorization programming is much preferred than loop based on single 
-%%% variable for better speed and compacter structure. The powers of time are
+%%% variable for faster speed and compacter structure. The powers of time are
 %%% stored in T.
 T(1,:) = ones(1, size(t,2));
 T(2,:) = t;
