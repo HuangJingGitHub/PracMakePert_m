@@ -62,7 +62,7 @@ a31(2) = 0;           % The coefficient matrix of the second interval is labeled
 a32(1) = 120;
 
 A = [ 1 1 0 0 0;      % 3 of these coefficients are easy to get. The left 5 are solved 
-      0 0 1 1 1;      % through linear equations AX=b. The derevation of the equation 
+      0 0 1 1 1;      % through linear equations AX=b. The derevation of the equations 
       0 0 1 2 3;      % is easy using the constraints.
       2 3 -1 0 0;     % X = [a31(3) a31(4) a32(2) a32(3) a32(4)]'.
       2 6 0 -2 0];
