@@ -8,7 +8,7 @@
 %%% to soluve the joint space vector [theta1 theta2 theta3]' generating 
 %%% this transformation matrix. See algorithm in John Craig's book P117-120 (4th edition)
 %%% L1=4m, L2=3m, L1=2m.
-%%% HUANG Jing @CUHK MAE, August 2018
+%%% HUANG Jing @CUHK MAE, August 2018.
 clear
 close all
 clc
