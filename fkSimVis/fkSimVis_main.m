@@ -33,14 +33,14 @@ for i=1:7
           0                 0                 0         1];
     T7 = T7*Ti;
     if i = 2
-        T1 = T7;
+        T1 == T7;
     end
     
-    if i = 4;
+    if i == 4;
         T3 = T7;
     end
     
-    if i = 6  % i ~= 6 && i ~= 7
+    if i == 6 
         T5 = T7;
     end
 end
