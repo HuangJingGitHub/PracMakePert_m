@@ -17,7 +17,7 @@ DH(5,:) = [pi/4   0   sqrt(2)*L  q5  ];
 DH(6,:) = [pi/4   0   L+q6       pi/2];
 DH(7,:) = [pi/2   0   0          0   ];
 
-%%% Transformation from frame{0} to the last joint
+%%% Transformation from frame{0} to the end-effector.
 T1 = eye(4);
 T3 = eye(4);
 T5 = eye(4);
@@ -32,15 +32,15 @@ for i=1:7
           sin(the)*sin(alp) cos(the)*sin(alp) cos(alp)  cos(alp)*d;
           0                 0                 0         1];
     T7 = T7*Ti;
-    if i < 2
+    if i = 2
         T1 = T7;
     end
     
-    if i < 4;
+    if i = 4;
         T3 = T7;
     end
     
-    if i < 6  % i ~= 6 && i ~= 7
+    if i = 6  % i ~= 6 && i ~= 7
         T5 = T7;
     end
 end
