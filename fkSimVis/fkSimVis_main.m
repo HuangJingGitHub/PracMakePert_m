@@ -32,15 +32,15 @@ for i=1:7
           sin(the)*sin(alp) cos(the)*sin(alp) cos(alp)  cos(alp)*d;
           0                 0                 0         1];
     T7 = T7*Ti;
-    if i == 2
+    if i == 1
         T1 = T7;
     end
     
-    if i == 4
+    if i == 3
         T3 = T7;
     end
     
-    if i == 6 
+    if i == 5 
         T5 = T7;
     end
 end
