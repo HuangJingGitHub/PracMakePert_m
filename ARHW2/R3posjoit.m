@@ -1,5 +1,5 @@
 function PJ = R3posjoit(q)
-% Position of the joint2 and joint3
+% Position of joint2 and joint3
     s1 = q(1);
     s12 = q(1) + q(2);
     PJ = zeros(4,1);
