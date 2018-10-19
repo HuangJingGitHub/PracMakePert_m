@@ -34,5 +34,5 @@ figure('Position',[50 50 800 550])
 plot(t,xer_norm(loop,:),'color','k','LineWidth',1)
 xlabel('\it{Time (s)}','Fontname','Times');
 ylabel('||x_{error}||','Fontname','Times');
-title(['Tracking Error with ', num2str(100*loop),'% K'],'Fontname','Times');
+title(['Tracking Error with ', num2str(100*Coef(loop)),'% K'],'Fontname','Times');
 end
