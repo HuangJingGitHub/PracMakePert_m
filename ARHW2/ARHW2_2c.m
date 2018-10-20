@@ -12,7 +12,7 @@ xd = [ 0.25*(1-cos(pi*t));
 xd_d = [ 0.25*pi*sin(pi*t);
         -0.25*pi*cos(pi*t)];
 q = zeros(3, steps);
-q(:,1) = [0, pi/6, pi/4]';
+q(:,1) = [3*pi/4, -pi/4, -pi/2]';
 xer = zeros(8,steps);
 xer_norm = zeros(4,steps);
 I = eye(3);
@@ -25,12 +25,12 @@ for i=1:steps
     xac = R3fk(q(:,i));
     xer(id:id+1,i) = xd(:,i) - xac;
     xer_norm(loop,i) = norm(xer(id:id+1,i));
-    J = R3Jac(q);
+    J = R3Jac(q(:,i));
     Jri = Wpinv(J,I);
     qdot = Jri*(xd_d(:,i)+K*xer(id:id+1,i));
     q(:,i+1) = q(:,i) + qdot*dt;
 end
-figure('Position',[50 50 800 550])
+figure('Position',[50 80 800 500])
 plot(t,xer_norm(loop,:),'color','k','LineWidth',1)
 xlabel('\it{Time (s)}','Fontname','Times');
 ylabel('||x_{error}||','Fontname','Times');
