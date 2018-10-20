@@ -1,6 +1,6 @@
 function qdotnull = R3MaxManipty(k0,q)
 %%% Maximizing manipulability, caculate the pratial derivate of objective
-%%% function of 3R manipulator.
+%%% function of 3R manipulator, w(q)=-sqrt(det(J*J')).
 %%% Symbolic computation is very slow when scale rises, so we use
 %%% analytical computation though the expression is very complicated.
      s1 = q(1);
