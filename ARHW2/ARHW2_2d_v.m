@@ -13,11 +13,11 @@ xd_d = [ 0.25*pi*sin(pi*t);
         -0.25*pi*cos(pi*t)];
 K = diag([500,500]);
 q = zeros(3, steps);
-q(:,1) = [3*pi/4, -pi/2, pi/2]';
+q(:,1) = [3*pi/4, -pi/2, pi/2]';    % Initial position of robot.
 xac = zeros(2, steps);
 PosJoit = zeros(4, steps);
 I = eye(3);
-qunit = R3Unitqdot();
+pra = linspace(0,2*pi,100);
 
 for i=1:steps
     xac(:,i) = R3fk(q(:,i));
@@ -37,7 +37,9 @@ link2 = line([PosJoit(1,1) PosJoit(3,1)],[PosJoit(2,1) PosJoit(4,1)],...
              'Color','k','Marker','.','MarkerSize',10,'LineWidth',1.5);
 link3 = line([PosJoit(3,1) xac(1,1)],[PosJoit(4,1) xac(2,1)],...
              'Color','k','Marker','.','MarkerSize',10,'LineWidth',1.5);
+%axis([-1 2 -0.5 1.5])
 axis([-1 2 -0.5 1.5])
+axis equal
 xlabel('X (m)','fontname','Times');
 ylabel('Y (m)','fontname','Times');
 title('Trajectory with Max Manipulability','Fontname','Times');
@@ -52,8 +54,12 @@ for i=1:5:steps         % The points are so dense, so pick a point every 5 data.
     
      if  i>1 && i < 2200 && mod(i,250)==1
          J = R3Jac(q(:,i));
-         xdot = J*qunit;
-         plot(0.08*xdot(1,:)+xac(1,i), 0.08*xdot(2,:)+xac(2,i),'color','b');
+         [U, S, V] = svd(J);              % Generate the ellipsoid coordinate --> ellipse in 2D 
+         xdot(1,:) = S(1,1) * cos(pra);
+         xdot(2,:) = S(2,2) * sin(pra);
+         xdot = U*xdot;
+        
+         plot(0.08*xdot(1,:)+xac(1,i), 0.08*xdot(2,:)+xac(2,i),'Color','b','Linewidth',1.5);
          hold on
      end 
     pause(2*dt);
@@ -71,7 +77,7 @@ for i=1:steps
     J = R3Jac(qstd(:,i));
     Jri = Wpinv(J,I);
 %   qdntemp = R3MaxManipty(1,q(:,i));
-    qdot = Jri*(xd_d(:,i)+K*xer);  % + (I-Jri*J)*qdntemp;
+    qdot = Jri*(xd_d(:,i) + K*xer);  % + (I-Jri*J)*qdntemp;
     qstd(:,i+1) = qstd(:,i) + qdot*dt;
 end
 
@@ -83,6 +89,7 @@ link2 = line([PosJoitstd(1,1) PosJoitstd(3,1)],[PosJoitstd(2,1) PosJoitstd(4,1)]
 link3 = line([PosJoitstd(3,1) xacstd(1,1)],[PosJoitstd(4,1) xacstd(2,1)],...
              'Color','k','Marker','.','MarkerSize',10,'LineWidth',1.5);
 axis([-1 2 -0.5 1.5])
+axis equal
 xlabel('X (m)','fontname','Times');
 ylabel('Y (m)','fontname','Times');
 title('Standard Trajectory','Fontname','Times');
@@ -97,8 +104,12 @@ for i=1:5:steps         % The points are so dense, so pick a point every 5 data.
     
      if  i>1 && i < 2200 && mod(i,250)==1 
          J = R3Jac(qstd(:,i));
-         xdot = J*qunit;
-         plot(0.08*xdot(1,:)+xacstd(1,i), 0.08*xdot(2,:)+xacstd(2,i),'color','b');
+         [U, S, V] = svd(J);
+         xdot(1,:) = S(1,1) * cos(pra);
+         xdot(2,:) = S(2,2) * sin(pra);
+         xdot = U*xdot;
+         %xdot = J*qunit;
+         plot(0.08*xdot(1,:)+xacstd(1,i), 0.08*xdot(2,:)+xacstd(2,i),'Color','b','Linewidth',1.5);
          hold on
      end 
     pause(2*dt);
