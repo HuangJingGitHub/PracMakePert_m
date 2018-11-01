@@ -65,7 +65,7 @@ xlabel('$Time$ $(s)$','interpreter','latex','fontsize',15);
 ylabel('$Angular$ $Velocity$ $(s^{-1})$','interpreter','latex','fontsize',15);
 h1=legend('$\dot{\theta_1}$',...
           '$\dot{\theta_2}$',...
-          '$\dot{\theta_3}$',0);
+          '$\dot{\theta_3}$');
 set(h1,'interpreter','latex','Box','off','fontsize',18);
 
 %%% (2) theta vs time
@@ -79,7 +79,7 @@ xlabel('$Time$ $(s)$','interpreter','latex','fontsize',15);
 ylabel('$Joint$ $Angles$ $(rad)$','interpreter','latex','fontsize',15);
 h1=legend('$\theta_1$',...
           '$\theta_2$',...
-          '$\theta_3$',0);
+          '$\theta_3$');
 set(h1,'interpreter','latex','Box','off','fontsize',18);
 
 %%% (3) absolute value of determinant |J| vs time
