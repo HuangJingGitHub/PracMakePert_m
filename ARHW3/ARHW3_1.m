@@ -154,7 +154,7 @@ hold on
 plot(t3, q3_1, 'color', 'r', 'linewidth', 2)
 ylabel('$\theta$','interpreter','LaTex','fontsize', 12);
 set(gca,'XTick',[]);
-title('$Linear\;Function\;with\;Parabolic\;Blends\;(\ddot{\theta}=30 deg/s^2)$','interpreter','LaTex','fontsize', 12);
+title('$Linear\;Function\;with\;Parabolic\;Blends\;(\ddot{\theta}=30\;deg/s^2)$','interpreter','LaTex','fontsize', 12);
 legd1 = legend('Cubic Ploynomial', 'Linear&Parabolic');
 set(legd1,'box','off');
 
@@ -184,7 +184,7 @@ hold on
 plot(t3, q3_2, 'color', 'r', 'linewidth', 2)
 ylabel('$\theta$','interpreter','LaTex','fontsize', 12);
 set(gca,'XTick',[]);
-title('$Linear\;Function\;with\;Parabolic\;Blends\;(\ddot{\theta}=100 deg/s^2)$','interpreter','LaTex','fontsize', 12);
+title('$Linear\;Function\;with\;Parabolic\;Blends\;(\ddot{\theta}=100\;deg/s^2)$','interpreter','LaTex','fontsize', 12);
 legd1 = legend('Cubic Ploynomial', 'Linear&Parabolic');
 set(legd1,'box','off');
 
