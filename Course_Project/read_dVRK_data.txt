@@ -1,0 +1,10 @@
+mtm_q: a sequence of MTM joint positions, each column is a vector of joint positions [joint1;joint2;joint3;joint4;joint5;joint6;joint7]
+mtm_x: a sequence of MTM tip frames computed by forward kinematics with mtm_q
+mtm_q and mtm_x are used for verifying forward kinematics function
+
+(psm_x_dsr,psm_xdot_dsr): the desired Cartesian trajectory of PSM
+psm_q_initial: the initial joint configuration of PSM.
+psm_x_dsr,psm_xdot_dsr and psm_q_initial are used for verifying inverse kinematics function, assuming inverse kinematics loop is run at 1kHz.
+
+mtm_x, mtm_x_ref and psm_x_ref are used for transforming mtm_x into psm_x_dsr.
+mtm_x_ref and psm_x_ref are hints for you to figure out how to transforming mtm_x into psm_x_dsr. You can ignore mtm_x_ref and psm_x_ref if you decide to figure out how to transforming mtm_x into psm_x_dsr by yourself totally.
