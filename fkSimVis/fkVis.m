@@ -6,7 +6,8 @@ Ori = ratio * Ori;
 Ori_x = [X(1,1)+Ori(1,1), X(2,1)+Ori(2,1),X(3,1)+Ori(3,1)];    % The arrow end position.
 Ori_y = [X(1,1)+Ori(1,2), X(2,1)+Ori(2,2),X(3,1)+Ori(3,2)];
 Ori_z = [X(1,1)+Ori(1,3), X(2,1)+Ori(2,3),X(3,1)+Ori(3,3)];
- 
+% Ori_X = [X, X, X] + Ori;
+
 %%%******Plot the tip trajectory******%%%
 figure('Position',[0 -200 1050 800]);
 plot3(X(1,:),X(2,:),X(3,:));
