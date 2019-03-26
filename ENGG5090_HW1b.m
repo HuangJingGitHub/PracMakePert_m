@@ -34,18 +34,33 @@ load('test_torque.mat');
 qt = zeros(linkNum, stepNum);
 qt(:,1) = 0.6 * sin((links - 1) * pi/3 );
 qdt = zeros(linkNum, stepNum);
+qdt(:, 1) = 0.6 * pi * cos((links - 1) * pi/3 );
 qddt = zeros(linkNum, stepNum);
+
 for i = 1:stepNum
-    M = CRBA(linkNum, Ii, h, qt(:, i), [0 0.1 0]');
-    tau_noacl = Citem(qt(:, i), qdt(:, i), linkNum, h, Ii);
+    q_t    = 0.6 * sin( pi * timeSeries(i) + (links - 1) * pi/3 );
+    q_dt   = 0.6 * pi * cos(pi * timeSeries(i) + (links - 1) * pi/3 );
+    M = CRBA(linkNum, Ii, h, q_t, 0.1);
+    tau_noacl = Citem(q_t, q_dt, linkNum, h, Ii);    
+     
+%     M = CRBA(linkNum, Ii, h, qt(:, i), 0.1);
+%     tau_noacl = Citem(qt(:, i), qdt(:, i), linkNum, h, Ii);
     q_acl = M \ (tau(:,i) - tau_noacl);
     qddt(:, i) = q_acl;
     qdt(:, i+1) = qdt(:, i) + q_acl * timeStep;
     qt(:, i+1) = qt(:, i) + qdt(:, i) * timeStep; % + 0.5 * q_acl * timeStep^2;
 end
 
-function M = CRBA(linkNum, Ii, hi, q_t, r)
-    fci = zeros(6, linkNum);
+figure
+plot(qt(2,:))
+hold on
+plot(qdt(2,:))
+hold on
+plot(qddt(2,:))
+
+
+function M = CRBA(linkNum, Ii, hi, q_t, linkLength)   %%% Composite Rigid Body Algorithm
+    fci = zeros(6, linkNum, linkNum);
     Ici = zeros(6, 6, linkNum);    
     M = zeros(linkNum, linkNum);
 
@@ -54,16 +69,16 @@ function M = CRBA(linkNum, Ii, hi, q_t, r)
     end
     
     for i = linkNum:-1:1
-        fci(:, i) = Ici(:,:,i) * hi;
+        fci(:, i, i) = Ici(:,:,i) * hi;
         for j = i:linkNum
-            M(i, j) = hi' * fci(:, j);
+            M(i, j) = hi' * fci(:,i, j);
             M(j, i) = M(i, j);
         end
         if i ~= 1
-            [X_M, X_F] = spatialTrans(-q_t(i), -r);
+            [X_M, X_F] = spatialTrans(-q_t(i), [0 -linkLength*cos(q_t(i)) linkLength*sin(q_t(i))]');
             Ici(:,:,i-1) = Ici(:,:,i-1) + X_F * Ici(:,:,i) / X_M;
             for j = i:linkNum
-                fci(:, j) = X_F * fci(:, j);
+                fci(:, i-1, j) = X_F * fci(:, i, j);
             end
         end
     end
@@ -71,8 +86,6 @@ end
 
 function tau_noacl = Citem(q_t, q_dt, linkNum, h, Ii)
     tau_noacl = zeros(linkNum, 1);
-%     q_t    = 0.6 * sin( pi * timeSeries(i) + (links - 1) * pi/3 );
-%     q_dt   = 0.6 * pi * cos(pi * timeSeries(i) + (links - 1) * pi/3 );
     q_ddt  = zeros(linkNum, 1);
     
     v = zeros(6, linkNum+1);
