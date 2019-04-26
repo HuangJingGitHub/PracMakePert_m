@@ -2,9 +2,9 @@
 %%% manipulator. (Craig's book chapter4)
 %%% Given a transformation matrix from base frame to wrist
 %%% frame Tb_w = [cos(phi) -sin(phi) 0 x;
-%%%              [sin(phi) cos(phi)  0 y;
-%%%              [0        0         1 0;
-%%%              [0        0         0 1]
+%%%               sin(phi) cos(phi)  0 y;
+%%%               0        0         1 0;
+%%%               0        0         0 1]
 %%% to solve the joint space vector [theta1 theta2 theta3]' generating 
 %%% this transformation matrix. See algorithm in John Craig's book P117-120 (4th edition)
 %%% L1=4m, L2=3m, L1=2m.
