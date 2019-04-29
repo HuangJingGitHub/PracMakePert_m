@@ -24,8 +24,8 @@ A = [1  dT  dT^2/2  0 0 0;
      0  0   0  0  1  dT;
      0  0   0  0  0  1];
 B = [dT^3/6 0; dT^2/2 0; dT 0; 0 dT^3/6; 0 dT^2/2; 0 dT];
-C = [1 0 CoMHeight / -gacl 0 0 0;
-     0 0 0 1 0 CoMHeight / -gacl];
+C = [1 0 CoMHeight / gacl 0 0 0;
+     0 0 0 1 0 CoMHeight / gacl];
 
 N = 10;
 T = cell(N, 1);
