@@ -1,4 +1,5 @@
 function J = Jacobian_nR(linkNum, q, linkLength)
+%%% Jacobian for plannr n-link revolute robot %%%
     J = zeros(2, linkNum);
     sum_q = zeros(linkNum, 1);
     sum_q(1) = q(1);
