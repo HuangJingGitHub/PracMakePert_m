@@ -1,6 +1,6 @@
 function tau = ID(q_t, q_dt, q_ddt, linkNum, h, Ii)           
+%%% Inverse Dynamics using RNEA in link coordinates and spatial vector algebra %%%
     tau = zeros(linkNum, 1);
-    %q_ddt  = zeros(linkNum, 1);
     
     v = zeros(6, linkNum+1);
     a = zeros(6, linkNum+1);
