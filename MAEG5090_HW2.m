@@ -1,4 +1,5 @@
-%%% MAEG5090 Topics in Robotics HW2_1.a %%%
+%%% MAEG5090 Topics in Robotics HW2.a %%%
+%%% huangjingonly@gmail.com %%%
 clear 
 close all
 clc
