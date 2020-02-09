@@ -100,7 +100,7 @@ xlabel('\it{Time (s)}','fontname','Times','fontsize',12);
 legd3 = legend('1 a)', '1 b)');
 set(legd3,'box','off');
 
-%%% 1 c) Lineat function with parabolic blends
+%%% 1 c) Linear function with parabolic blends
 the    = [15 75];       
 tf     = 3;
 dt     = 1/100;
