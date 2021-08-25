@@ -85,6 +85,7 @@ for i = 1 : dataNum
         cnt = cnt + 1;
         end
     end
+    curAngle(1, i) = rawData(rawDataIdx + singleDataDim); 
 end
 
 %% data analysis
@@ -161,13 +162,13 @@ for i = 1 : dataNum
     ptToPathProjectionDis(1, i) = norm(feedbackPt(1:2, i) - projectionOnPathPt(1:2, i));
     ptToPathProjectionDis(2, i) = norm(feedbackPt(3:4, i) - projectionOnPathPt(3:4, i));
     ptToPathProjectionDis(3, i) = norm(feedbackPt(5:6, i) - projectionOnPathPt(5:6, i));
-    DOToObsDistance(i, 1) = norm(DOToObsDOPt(:, i) - DOToObsObsPt(:, i));
-    eeToObsDistance(i, 1) = calPtDisToPolygon(eePt(:, i), obsVertices);
+    DOToObsDistance(1, i) = norm(DOToObsDOPt(:, i) - DOToObsObsPt(:, i));
+    eeToObsDistance(1, i) = calPtDisToPolygon(eePt(:, i), obsVertices);
     if i > 1
-        if eeToObsDistance(i, 1) < 0.5 && eeToObsDistance(i - 1, 1) > 0.5
+        if eeToObsDistance(1, i) < 0.5 && eeToObsDistance(1, i - 1) > 0.5
             enterIdx = [enterIdx i];
         end
-        if eeToObsDistance(i, 1) > 0.5 && eeToObsDistance(i - 1, 1) < 0.5
+        if eeToObsDistance(1, i) > 0.5 && eeToObsDistance(1, i - 1) < 0.5
             leaveIdx = [leaveIdx i];
         end
     end    
@@ -180,156 +181,239 @@ end
 
 timeSeries = (1 : dataNum) * 0.045;
 %% plot 1
-fig1 = figure('position', [200 200 700 480]);
-plot(pathDataXYPt1(1, :), pathDataXYPt1(2,:), '--m', 'Linewidth', 2)
-hold on
-plot(feedbackPt(1, :), feedbackPt(2, :), 'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 2)
-hold on
-patch(obsVertices(1, :), obsVertices(2, :), 'b', 'FaceColor', 'b', 'FaceAlpha', 0.4)
-% for i = 1 : 20 : size(feedbackPt, 2)
-%     hold on
-%     line([feedbackPt(1, i), feedbackPt(3, i)], [feedbackPt(2, i), feedbackPt(4, i)], 'Color', 'b', 'LineWidth', 2)
-%     line([feedbackPt(1, i), feedbackPt(5, i)], [feedbackPt(2, i), feedbackPt(6, i)], 'Color', 'b', 'LineWidth', 2)
-% end
-hold on
-line([feedbackPt(1, end), feedbackPt(3, end)], [feedbackPt(2, end), feedbackPt(4, end)], 'Color', 'b', 'LineWidth', 2)
-line([feedbackPt(1, end), feedbackPt(5, end)], [feedbackPt(2, end), feedbackPt(6, end)], 'Color', 'b', 'LineWidth', 2)
-line([pathDataXYPt1(1, end), pathDataXYPt2(1, end)], [pathDataXYPt1(2, end), pathDataXYPt2(2, end)], 'Color', 'g', 'LineWidth', 2)
-line([pathDataXYPt1(1, end), pathDataXYPt3(1, end)], [pathDataXYPt1(2, end), pathDataXYPt3(2, end)], 'Color', 'g', 'LineWidth', 2)
-hold on
-startPt = plot(pathDataXYPt1(1,1), pathDataXYPt1(2,1), '-o', 'MarkerSize',10,...
-    'MarkerEdgeColor','r',...
-    'MarkerFaceColor','r');
-startPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
-hold on
-targetPt = plot(pathDataXYPt1(1,end), pathDataXYPt1(2,end), '-o', 'MarkerSize',10,...
-    'MarkerEdgeColor','g',...
-    'MarkerFaceColor','g');
-targetPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
-
-hold on
-plot(pathDataXYPt2(1, :), pathDataXYPt2(2,:), '--m', 'Linewidth', 2)
-hold on
-plot(feedbackPt(3, :), feedbackPt(4, :), 'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 2)
-hold on
-startPt = plot(pathDataXYPt2(1,1), pathDataXYPt2(2,1), '-o', 'MarkerSize',10,...
-    'MarkerEdgeColor','r',...
-    'MarkerFaceColor','r');
-startPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
-hold on
-targetPt = plot(pathDataXYPt2(1,end), pathDataXYPt2(2,end), '-o', 'MarkerSize',10,...
-    'MarkerEdgeColor','g',...
-    'MarkerFaceColor','g');
-targetPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
-
-hold on
-plot(pathDataXYPt3(1, :), pathDataXYPt3(2,:), '--m', 'Linewidth', 2)
-hold on
-plot(feedbackPt(5, :), feedbackPt(6, :), 'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 2)
-hold on
-startPt = plot(pathDataXYPt3(1,1), pathDataXYPt3(2,1), '-o', 'MarkerSize',10,...
-    'MarkerEdgeColor','r',...
-    'MarkerFaceColor','r');
-startPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
-hold on
-targetPt = plot(pathDataXYPt3(1,end), pathDataXYPt3(2,end), '-o', 'MarkerSize',10,...
-    'MarkerEdgeColor','g',...
-    'MarkerFaceColor','g');
-targetPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
-%legend('Reference Path', 'Real Path', 'Obstacle', 'Location', 'northwest', 'Fontsize', 16)
-
-% text(pathDataXYPt1(1,1) - 1.8, pathDataXYPt1(2, 1) + 6, '\uparrow', 'Fontsize', 14)
-% text(pathDataXYPt1(1,1) - 7.5, pathDataXYPt1(2, 1) + 12, 'start', 'Fontname', 'Arial', 'Fontsize', 14)
-% text(pathDataXYPt1(1,end) - 1.8, pathDataXYPt1(2, end) + 6, '\uparrow', 'Fontsize', 14)
-% text(pathDataXYPt1(1,end) - 9, pathDataXYPt1(2, end) + 12, 'target', 'Fontname', 'Arial', 'Fontsize', 14)
-
-xlabel('x (px)','Fontname','Times','Fontsize', 19);
-ylabel('y (px)', 'Fontname', 'Times','Fontsize', 19);
-ax = gca;
-ax.FontSize = 19;
-ax.FontName = 'Times';
-set(ax, 'Ydir', 'reverse')
-grid on
-axis equal
-axis([150 500 100 300])
-% xticks(200:40:400)
-% yticks(200:40:320)
-set(gcf, 'Renderer', 'Painters');
-print(fig1, './Figure/PathTracking_Obs_0729_2129_3rd', '-depsc')
+% fig1 = figure('position', [200 200 700 480]);
+% plot(pathDataXYPt1(1, :), pathDataXYPt1(2,:), '--m', 'Linewidth', 2)
+% hold on
+% plot(feedbackPt(1, :), feedbackPt(2, :), 'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 2)
+% hold on
+% patch(obsVertices(1, :), obsVertices(2, :), 'b', 'FaceColor', 'b', 'FaceAlpha', 0.4)
+% % for i = 1 : 20 : size(feedbackPt, 2)
+% %     hold on
+% %     line([feedbackPt(1, i), feedbackPt(3, i)], [feedbackPt(2, i), feedbackPt(4, i)], 'Color', 'b', 'LineWidth', 2)
+% %     line([feedbackPt(1, i), feedbackPt(5, i)], [feedbackPt(2, i), feedbackPt(6, i)], 'Color', 'b', 'LineWidth', 2)
+% % end
+% % hold on
+% % line([feedbackPt(1, end), feedbackPt(3, end)], [feedbackPt(2, end), feedbackPt(4, end)], 'Color', 'b', 'LineWidth', 2)
+% % line([feedbackPt(1, end), feedbackPt(5, end)], [feedbackPt(2, end), feedbackPt(6, end)], 'Color', 'b', 'LineWidth', 2)
+% % line([pathDataXYPt1(1, end), pathDataXYPt2(1, end)], [pathDataXYPt1(2, end), pathDataXYPt2(2, end)], 'Color', 'g', 'LineWidth', 2)
+% % line([pathDataXYPt1(1, end), pathDataXYPt3(1, end)], [pathDataXYPt1(2, end), pathDataXYPt3(2, end)], 'Color', 'g', 'LineWidth', 2)
+% hold on
+% startPt = plot(pathDataXYPt1(1,1), pathDataXYPt1(2,1), '-o', 'MarkerSize',10,...
+%     'MarkerEdgeColor','r',...
+%     'MarkerFaceColor','r');
+% startPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
+% hold on
+% targetPt = plot(pathDataXYPt1(1,end), pathDataXYPt1(2,end), '-o', 'MarkerSize',10,...
+%     'MarkerEdgeColor','g',...
+%     'MarkerFaceColor','g');
+% targetPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
+% 
+% hold on
+% plot(pathDataXYPt2(1, :), pathDataXYPt2(2,:), '--m', 'Linewidth', 2)
+% hold on
+% plot(feedbackPt(3, :), feedbackPt(4, :), 'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 2)
+% hold on
+% startPt = plot(pathDataXYPt2(1,1), pathDataXYPt2(2,1), '-o', 'MarkerSize',10,...
+%     'MarkerEdgeColor','r',...
+%     'MarkerFaceColor','r');
+% startPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
+% hold on
+% targetPt = plot(pathDataXYPt2(1,end), pathDataXYPt2(2,end), '-o', 'MarkerSize',10,...
+%     'MarkerEdgeColor','g',...
+%     'MarkerFaceColor','g');
+% targetPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
+% 
+% hold on
+% plot(pathDataXYPt3(1, :), pathDataXYPt3(2,:), '--m', 'Linewidth', 2)
+% hold on
+% plot(feedbackPt(5, :), feedbackPt(6, :), 'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 2)
+% hold on
+% startPt = plot(pathDataXYPt3(1,1), pathDataXYPt3(2,1), '-o', 'MarkerSize',10,...
+%     'MarkerEdgeColor','r',...
+%     'MarkerFaceColor','r');
+% startPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
+% hold on
+% targetPt = plot(pathDataXYPt3(1,end), pathDataXYPt3(2,end), '-o', 'MarkerSize',10,...
+%     'MarkerEdgeColor','g',...
+%     'MarkerFaceColor','g');
+% targetPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
+% legend('Reference Path', 'Real Path', 'Obstacle', 'Position', [0.126 0.69 0.2857 0.1792], 'Fontsize', 16)
+% % legend('Reference Path', 'Real Path', 'Obstacle', 'Location', 'northwest', 'Fontsize', 16)
+% text(pathDataXYPt1(1,1), pathDataXYPt1(2, 1) + 14, 's_0', 'Fontname', 'Arial', 'Fontsize', 20)
+% text(pathDataXYPt2(1,1), pathDataXYPt2(2, 1) + 14, 's_1', 'Fontname', 'Arial', 'Fontsize', 20)
+% text(pathDataXYPt3(1,1) - 12, pathDataXYPt3(2, 1) + 14, 's_2', 'Fontname', 'Arial', 'Fontsize', 20)
+% 
+% xlabel('x (px)','Fontname','Times','Fontsize', 19);
+% ylabel('y (px)', 'Fontname', 'Times','Fontsize', 19);
+% ax = gca;
+% ax.FontSize = 19;
+% ax.FontName = 'Times';
+% set(ax, 'Ydir', 'reverse')
+% grid on
+% axis equal
+% axis([150 500 100 300])
+% % xticks(200:40:400)
+% % yticks(200:40:320)
+% set(gcf, 'Renderer', 'Painters');
+% % print(fig1, './Figure/PathTracking_Obs_0729_2129_1st', '-depsc')
 
 
 %% plot 2
-% fig2 = figure('position', [955 144 774 720]);
-% H11 = subplot(3,1,1);
-% plot(timeSeries, ptToPathProjection, 'Linewidth', 2)
+% fig2 = figure('position', [955 144 774 960]);
+% H11 = subplot(4,1,1);
+% plot(timeSeries, closestDisToPath(1, :), 'Linewidth', 2)
 % hold on
-% plot(timeSeries, closestDisToPath, 'Linewidth', 2)
-% adjustXBox = [3.5 15.5 28; 3.5  15.5 28];
-% adjustYBox = [0 0 0; 44.15 44.15 44.15];
+% plot(timeSeries, closestDisToPath(2, :), 'Linewidth', 2)
 % hold on
-% plot(adjustXBox, adjustYBox, 'Color', 'r', 'Linewidth', 2)
-% % patch(adjustXBox, adjustYBox, 'black', 'FaceColor', 'b', 'FaceAlpha', 0.15)
-% % adjustXBox = [15.5 28 28 15.5];
-% % adjustYBox = [0 0 44.15 44.15];
-% % hold on
-% % patch(adjustXBox, adjustYBox, 'black', 'FaceColor', 'm', 'FaceAlpha', 0.15)
-% text(5, 28, 'Adjustment phase', 'Fontname', 'Arial', 'Fontsize', 13)
-% text(18, 8, 'Tracking ee path', 'Fontname', 'Arial', 'Fontsize', 13)
-% 
+% plot(timeSeries, closestDisToPath(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Location', 'northwest')
 % %set(gca, 'XTicklabel', [])
 % xTickObj = get(gca, 'XTickLabel');
 % set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
 % ylabel('Path Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
 % xlabel('(a)', 'Fontname', 'Times', 'Fontsize', 15)
-% legend('Tracking error norm', 'Dist. to path', 'Fontname', 'Times', 'Fontsize', 13, 'position', [0.655 0.8524 0.2494 0.0618])
 % grid on
-% xlim([0 38])
-% ylim([0 44.15])
+% xlim([0 23])
+% ylim([0 21.5])
 % 
-% 
-% H12 = subplot(3,1,2);
-% plot(timeSeries, pathLengthTracking, 'Linewidth', 2)
+% H21 = subplot(4,1,2);
+% plot(timeSeries, ptToPathProjectionDis(1, :), 'Linewidth', 2)
 % hold on
-% plot(timeSeries, absDisToTarget, 'LineWidth', 2)
-% adjustXBox = [3.5 15.5 28; 3.5  15.5 28];
-% adjustYBox = [0 0 0; 200 200 200];
+% plot(timeSeries, ptToPathProjectionDis(2, :), 'Linewidth', 2)
 % hold on
-% plot(adjustXBox, adjustYBox, 'Color', 'r', 'Linewidth', 2)
-% % patch(adjustXBox, adjustYBox, 'black', 'FaceColor', 'b', 'FaceAlpha', 0.15)
-% % adjustXBox = [15.5 28 28 15.5];
-% % adjustYBox = [0 0 200 200];
-% % hold on
-% % patch(adjustXBox, adjustYBox, 'black', 'FaceColor', 'm', 'FaceAlpha', 0.15)
+% plot(timeSeries, ptToPathProjectionDis(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Position', [0.32 0.615 0.0840 0.0896])
+% %set(gca, 'XTicklabel', [])
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Tracking Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel('(b)', 'Fontname', 'Times', 'Fontsize', 15)
+% grid on
+% xlim([0 23])
+% % ylim([0 21.5])
 % 
+% H31 = subplot(4,1,3);
+% plot(timeSeries, absDisToTarget(1, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, absDisToTarget(2, :), 'LineWidth', 2)
+% hold on
+% plot(timeSeries, absDisToTarget(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
 % xTickObj = get(gca, 'XTickLabel');
 % set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
 % ylabel('Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
-% xlabel('(b)', 'Fontname', 'Times', 'Fontsize', 15)
-% legend('In planned path', 'In configuration space', 'Fontname', 'Times', 'Fontsize', 13)
+% xlabel('(c)', 'Fontname', 'Times', 'Fontsize', 15)
 % %set(gca, 'XTicklabel', []);
 % grid on
-% xlim([0 38])
+% xlim([0 23])
+% ylim([0 120])
+% yticks([0:25:120])
 % 
-% H13 = subplot(3,1,3);
+% H41 = subplot(4,1,4);
+% plot(timeSeries, pathLengthTracking(1, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, pathLengthTracking(2, :), 'LineWidth', 2)
+% hold on
+% plot(timeSeries, 0.95 * pathLengthTracking(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Path Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel({'Time (s)'; '(d)'}, 'Fontname', 'Times', 'Fontsize', 15)
+% %set(gca, 'XTicklabel', []);
+% grid on
+% xlim([0 23])
+% ylim([0 120])
+% yticks([0:25:120])
+% set(gcf, 'Renderer', 'Painters');
+% % print(fig2, './Figure/DataAnalysis_0729_2130_United', '-depsc')
+% 
+% %% plot 3
+% fig2 = figure('position', [955 144 774 480]);
+% H11 = subplot(2,1,1);
+% plot(timeSeries, abs(curAngle - targetAngle), 'Linewidth', 2)
+% % legend('s_0', 's_1', 's_2', 'Fontname', 'Times', 'Fontsize', 13, 'Location', 'northwest')
+% %set(gca, 'XTicklabel', [])
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Angle Err. (deg)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel('(a)', 'Fontname', 'Times', 'Fontsize', 15)
+% grid on
+% xlim([0 23])
+% ylim([0 65])
+% 
+% H21 = subplot(2,1,2);
 % plot(timeSeries, DOToObsDistance, 'Linewidth', 2)
 % hold on
 % plot(timeSeries, eeToObsDistance, 'Linewidth', 2)
-% adjustXBox = [3.5 15.5 28; 3.5  15.5 28];
-% adjustYBox = [0 0 0; 150 150 150];
-% hold on
-% plot(adjustXBox, adjustYBox, 'Color', 'r', 'Linewidth', 2)
-% % patch(adjustXBox, adjustYBox, 'black', 'FaceColor', 'b', 'FaceAlpha', 0.15)
-% % adjustXBox = [15.5 28 28 15.5];
-% % adjustYBox = [0 0 150 150];
-% % hold on
-% % patch(adjustXBox, adjustYBox, 'black', 'FaceColor', 'm', 'FaceAlpha', 0.15)
-% 
+% legend('DO-obstacle', 'ee-obstacle', 'Fontname', 'Times', 'Fontsize', 13)
+% %set(gca, 'XTicklabel', [])
 % xTickObj = get(gca, 'XTickLabel');
 % set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
-% xlabel({'Time (s)'; '(c)'}, 'Fontname', 'Times', 'Fontsize', 15)
 % ylabel('Obstacle Dist. (px)', 'Fontname', 'Times', 'Fontsize', 15)
-% legend('DO-obstacle', 'ee-obstacle', 'Fontname', 'Times', 'Fontsize', 13, 'position', [0.52 0.2566 0.1705 0.0590]);
+% xlabel({'Time (s)'; '(b)'}, 'Fontname', 'Times', 'Fontsize', 15)
 % grid on
-% xlim([0 38])
+% xlim([0 23])
+% ylim([0 170])
 % set(gcf, 'Renderer', 'Painters');
-% print(fig2, './Figure/DataAnalysis_0707_2338_TimeZone', '-depsc')
+% % print(fig2, './Figure/DataAnalysis_0729_2130_Angle_Obstacle', '-depsc')
+
+
+%% plot 4
+lambda = 0 : 0.2 : 1;
+targetConfig = zeros(6, 6);
+targetConfig(1, :) = [312, 180, 312, 246.22, 388.258, 166.554];
+targetConfig(2, :) = [312, 180, 312, 246.22, 388.563, 166.5];
+targetConfig(3, :) = [312, 180, 303.362, 248.379, 390.889, 176.142];
+targetConfig(4, :) = [312, 180, 282.654, 242.363, 388.22, 200.708];
+targetConfig(5, :) = [312, 180, 275.069, 238.193, 385.023, 210.098];
+targetConfig(6, :) = [312, 180, 271.488, 235.76, 382.99, 214.624];
+
+fig4 = figure('position', [200 200 700 480]);
+patch(obsVertices(1, :), obsVertices(2, :), 'b', 'FaceColor', 'b', 'FaceAlpha', 0.4)
+hold on
+plot([pathDataXYPt1(1, 1), pathDataXYPt2(1, 1)], [pathDataXYPt1(2, 1), pathDataXYPt2(2, 1)], 'b', 'LineWidth', 2)
+plot([pathDataXYPt1(1, 1), pathDataXYPt3(1, 1)], [pathDataXYPt1(2, 1), pathDataXYPt3(2, 1)], 'b', 'LineWidth', 2)
+plot(pathDataXYPt1(1, 1), pathDataXYPt1(2, 1), '-o', 'MarkerSize', 8, 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'b')
+plot(pathDataXYPt2(1, 1), pathDataXYPt2(2, 1), '-o', 'MarkerSize', 8, 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'b')
+plot(pathDataXYPt3(1, 1), pathDataXYPt3(2, 1), '-o', 'MarkerSize', 8, 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'b')
+
+for i = 1 : 1 : 6
+    hold on
+    curPlot = plot([targetConfig(i, 1), targetConfig(i, 3)], [targetConfig(i, 2), targetConfig(i, 4)], 'LineWidth', 2);
+    curColor = curPlot.Color;
+    plot([targetConfig(i, 1), targetConfig(i, 5)], [targetConfig(i, 2), targetConfig(i, 6)], 'color', curColor, 'LineWidth', 2)
+    plot(targetConfig(i, 3), targetConfig(i, 4), '-o', 'MarkerSize', 8, 'MarkerEdgeColor',curColor, 'MarkerFaceColor', curColor)
+    plot(targetConfig(i, 5), targetConfig(i, 6), '-o', 'MarkerSize', 8, 'MarkerEdgeColor',curColor, 'MarkerFaceColor', curColor)
+end
+plot(targetConfig(1, 1), targetConfig(1, 2), '-o', 'MarkerSize', 8, 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'b')
+% circular_arrow(fig4, 110, [312, 180], 0, 30, -1, 'r', 10)
+% draw an arrow
+arrow = annotation('arrow');
+arrow.Parent = gca;
+arrow.Position = [414.5 200 -0.05 -0.1];
+arrow.Color = 'r';
+center = [370; 180];
+radius = 50;
+arcPts = zeros(2, 50);
+for i = 1 : 50
+    curAngle = (-22.5 + 45 / 50 * i) / 180 * pi;
+    arcPts(1, i) = center(1, 1) + radius * cos(curAngle);
+    arcPts(2, i) = center(2, 1) + radius * sin(curAngle);
+end
+plot(arcPts(1, :), arcPts(2, :), 'r', 'LineWidth', 1.5);
+
+xlabel('x (px)','Fontname','Times','Fontsize', 19);
+ylabel('y (px)', 'Fontname', 'Times','Fontsize', 19);
+ax = gca;
+ax.FontSize = 16;
+ax.FontName = 'Times';
+set(ax, 'Ydir', 'reverse')
+grid on
+box on
+axis equal
+axis([150 500 100 300])
+% xticks(200:40:400)
+% yticks(200:40:320)
+set(gcf, 'Renderer', 'Painters');
+print(fig4, './Figure/AngleTarget_lambda_0729_2129', '-depsc')
