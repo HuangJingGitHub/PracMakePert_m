@@ -239,9 +239,9 @@ timeSeries = (1 : dataNum) * 0.045;
 % targetPt.Annotation.LegendInformation.IconDisplayStyle = 'off';
 % legend('Reference Path', 'Real Path', 'Obstacle', 'Position', [0.126 0.69 0.2857 0.1792], 'Fontsize', 16)
 % % legend('Reference Path', 'Real Path', 'Obstacle', 'Location', 'northwest', 'Fontsize', 16)
-% text(pathDataXYPt1(1,1), pathDataXYPt1(2, 1) + 14, 's_0', 'Fontname', 'Arial', 'Fontsize', 20)
-% text(pathDataXYPt2(1,1), pathDataXYPt2(2, 1) + 14, 's_1', 'Fontname', 'Arial', 'Fontsize', 20)
-% text(pathDataXYPt3(1,1) - 12, pathDataXYPt3(2, 1) + 14, 's_2', 'Fontname', 'Arial', 'Fontsize', 20)
+% text(pathDataXYPt1(1,1), pathDataXYPt1(2, 1) + 14, 's_1', 'Fontname', 'Arial', 'Fontsize', 20)
+% text(pathDataXYPt2(1,1), pathDataXYPt2(2, 1) + 14, 's_2', 'Fontname', 'Arial', 'Fontsize', 20)
+% text(pathDataXYPt3(1,1) - 12, pathDataXYPt3(2, 1) + 14, 's_3', 'Fontname', 'Arial', 'Fontsize', 20)
 % 
 % xlabel('x (px)','Fontname','Times','Fontsize', 19);
 % ylabel('y (px)', 'Fontname', 'Times','Fontsize', 19);
@@ -259,77 +259,77 @@ timeSeries = (1 : dataNum) * 0.045;
 
 
 %% plot 2
-% fig2 = figure('position', [955 144 774 960]);
-% H11 = subplot(4,1,1);
-% plot(timeSeries, closestDisToPath(1, :), 'Linewidth', 2)
-% hold on
-% plot(timeSeries, closestDisToPath(2, :), 'Linewidth', 2)
-% hold on
-% plot(timeSeries, closestDisToPath(3, :), 'LineWidth', 2)
-% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Location', 'northwest')
-% %set(gca, 'XTicklabel', [])
-% xTickObj = get(gca, 'XTickLabel');
-% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
-% ylabel('Path Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
-% xlabel('(a)', 'Fontname', 'Times', 'Fontsize', 15)
-% grid on
-% xlim([0 23])
+fig2 = figure('position', [955 144 774 960]);
+H11 = subplot(4,1,1);
+plot(timeSeries, closestDisToPath(1, :), 'Linewidth', 2)
+hold on
+plot(timeSeries, closestDisToPath(2, :), 'Linewidth', 2)
+hold on
+plot(timeSeries, closestDisToPath(3, :), 'LineWidth', 2)
+legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Location', 'northwest')
+%set(gca, 'XTicklabel', [])
+xTickObj = get(gca, 'XTickLabel');
+set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+ylabel('Path Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+xlabel('(a)', 'Fontname', 'Times', 'Fontsize', 15)
+grid on
+xlim([0 23])
+ylim([0 21.5])
+
+H21 = subplot(4,1,2);
+plot(timeSeries, ptToPathProjectionDis(1, :), 'Linewidth', 2)
+hold on
+plot(timeSeries, ptToPathProjectionDis(2, :), 'Linewidth', 2)
+hold on
+plot(timeSeries, ptToPathProjectionDis(3, :), 'LineWidth', 2)
+legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Position', [0.32 0.615 0.0840 0.0896])
+%set(gca, 'XTicklabel', [])
+xTickObj = get(gca, 'XTickLabel');
+set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+ylabel('Tracking Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+xlabel('(b)', 'Fontname', 'Times', 'Fontsize', 15)
+grid on
+xlim([0 23])
 % ylim([0 21.5])
-% 
-% H21 = subplot(4,1,2);
-% plot(timeSeries, ptToPathProjectionDis(1, :), 'Linewidth', 2)
-% hold on
-% plot(timeSeries, ptToPathProjectionDis(2, :), 'Linewidth', 2)
-% hold on
-% plot(timeSeries, ptToPathProjectionDis(3, :), 'LineWidth', 2)
-% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Position', [0.32 0.615 0.0840 0.0896])
-% %set(gca, 'XTicklabel', [])
-% xTickObj = get(gca, 'XTickLabel');
-% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
-% ylabel('Tracking Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
-% xlabel('(b)', 'Fontname', 'Times', 'Fontsize', 15)
-% grid on
-% xlim([0 23])
-% % ylim([0 21.5])
-% 
-% H31 = subplot(4,1,3);
-% plot(timeSeries, absDisToTarget(1, :), 'Linewidth', 2)
-% hold on
-% plot(timeSeries, absDisToTarget(2, :), 'LineWidth', 2)
-% hold on
-% plot(timeSeries, absDisToTarget(3, :), 'LineWidth', 2)
-% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
-% xTickObj = get(gca, 'XTickLabel');
-% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
-% ylabel('Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
-% xlabel('(c)', 'Fontname', 'Times', 'Fontsize', 15)
-% %set(gca, 'XTicklabel', []);
-% grid on
-% xlim([0 23])
-% ylim([0 120])
-% yticks([0:25:120])
-% 
-% H41 = subplot(4,1,4);
-% plot(timeSeries, pathLengthTracking(1, :), 'Linewidth', 2)
-% hold on
-% plot(timeSeries, pathLengthTracking(2, :), 'LineWidth', 2)
-% hold on
-% plot(timeSeries, 0.95 * pathLengthTracking(3, :), 'LineWidth', 2)
-% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
-% xTickObj = get(gca, 'XTickLabel');
-% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
-% ylabel('Path Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
-% xlabel({'Time (s)'; '(d)'}, 'Fontname', 'Times', 'Fontsize', 15)
-% %set(gca, 'XTicklabel', []);
-% grid on
-% xlim([0 23])
-% ylim([0 120])
-% yticks([0:25:120])
-% set(gcf, 'Renderer', 'Painters');
-% % print(fig2, './Figure/DataAnalysis_0729_2130_United', '-depsc')
-% 
-% %% plot 3
-% fig2 = figure('position', [955 144 774 480]);
+
+H31 = subplot(4,1,3);
+plot(timeSeries, absDisToTarget(1, :), 'Linewidth', 2)
+hold on
+plot(timeSeries, absDisToTarget(2, :), 'LineWidth', 2)
+hold on
+plot(timeSeries, absDisToTarget(3, :), 'LineWidth', 2)
+legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
+xTickObj = get(gca, 'XTickLabel');
+set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+ylabel('Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+xlabel('(c)', 'Fontname', 'Times', 'Fontsize', 15)
+%set(gca, 'XTicklabel', []);
+grid on
+xlim([0 23])
+ylim([0 120])
+yticks([0:25:120])
+
+H41 = subplot(4,1,4);
+plot(timeSeries, pathLengthTracking(1, :), 'Linewidth', 2)
+hold on
+plot(timeSeries, pathLengthTracking(2, :), 'LineWidth', 2)
+hold on
+plot(timeSeries, 0.95 * pathLengthTracking(3, :), 'LineWidth', 2)
+legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
+xTickObj = get(gca, 'XTickLabel');
+set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+ylabel('Path Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+xlabel({'Time (s)'; '(d)'}, 'Fontname', 'Times', 'Fontsize', 15)
+%set(gca, 'XTicklabel', []);
+grid on
+xlim([0 23])
+ylim([0 120])
+yticks([0:25:120])
+set(gcf, 'Renderer', 'Painters');
+% print(fig2, './Figure/DataAnalysis_0729_2130_United', '-depsc')
+
+%% plot 3
+% fig2 = figure('position', [955 144 764 460]);
 % H11 = subplot(2,1,1);
 % plot(timeSeries, abs(curAngle - targetAngle), 'Linewidth', 2)
 % % legend('s_0', 's_1', 's_2', 'Fontname', 'Times', 'Fontsize', 13, 'Location', 'northwest')
@@ -356,7 +356,7 @@ timeSeries = (1 : dataNum) * 0.045;
 % xlim([0 23])
 % ylim([0 170])
 % set(gcf, 'Renderer', 'Painters');
-% % print(fig2, './Figure/DataAnalysis_0729_2130_Angle_Obstacle', '-depsc')
+% print(fig2, './Figure/DataAnalysis_0729_2130_Angle_Obstacle', '-depsc')
 
 
 %% plot 4
@@ -403,6 +403,7 @@ for i = 1 : 50
 end
 plot(arcPts(1, :), arcPts(2, :), 'r', 'LineWidth', 1.5);
 
+text(pathDataXYPt1(1,1), pathDataXYPt1(2, 1) + 16, 's_0 and y_0', 'Fontname', 'Arial', 'Fontsize', 18)
 xlabel('x (px)','Fontname','Times','Fontsize', 19);
 ylabel('y (px)', 'Fontname', 'Times','Fontsize', 19);
 ax = gca;
@@ -417,3 +418,99 @@ axis([150 500 100 300])
 % yticks(200:40:320)
 set(gcf, 'Renderer', 'Painters');
 print(fig4, './Figure/AngleTarget_lambda_0729_2129', '-depsc')
+
+%% plot unitedly
+% fig5 = figure('position', [300 300 1460 500]);
+% H11 = subplot(2,3,1);
+% plot(timeSeries, closestDisToPath(1, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, closestDisToPath(2, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, closestDisToPath(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Location', 'northwest')
+% %set(gca, 'XTicklabel', [])
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Path Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel('(a)', 'Fontname', 'Times', 'Fontsize', 15)
+% grid on
+% xlim([0 23])
+% ylim([0 21.5])
+% 
+% H21 = subplot(2,3,4);
+% plot(timeSeries, ptToPathProjectionDis(1, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, ptToPathProjectionDis(2, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, ptToPathProjectionDis(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13, 'Position', [0.16 0.2702 0.0458 0.1654])
+% %set(gca, 'XTicklabel', [])
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Tracking Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel({'Time (s)'; '(b)'}, 'Fontname', 'Times', 'Fontsize', 15)
+% grid on
+% xlim([0 23])
+% % ylim([0 21.5])
+% 
+% H12 = subplot(2,3,2);
+% plot(timeSeries, absDisToTarget(1, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, absDisToTarget(2, :), 'LineWidth', 2)
+% hold on
+% plot(timeSeries, absDisToTarget(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel('(c)', 'Fontname', 'Times', 'Fontsize', 15)
+% %set(gca, 'XTicklabel', []);
+% grid on
+% xlim([0 23])
+% ylim([0 120])
+% yticks([0:25:120])
+% 
+% H22 = subplot(2,3,5);
+% plot(timeSeries, pathLengthTracking(1, :), 'Linewidth', 2)
+% hold on
+% plot(timeSeries, pathLengthTracking(2, :), 'LineWidth', 2)
+% hold on
+% plot(timeSeries, 0.95 * pathLengthTracking(3, :), 'LineWidth', 2)
+% legend('s_1', 's_2', 's_3', 'Fontname', 'Times', 'Fontsize', 13)
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Path Target Err. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel({'Time (s)'; '(d)'}, 'Fontname', 'Times', 'Fontsize', 15)
+% %set(gca, 'XTicklabel', []);
+% grid on
+% xlim([0 23])
+% ylim([0 120])
+% yticks([0:25:120])
+% 
+% H13 = subplot(2,3,3);
+% plot(timeSeries, abs(curAngle - targetAngle), 'Linewidth', 2)
+% % legend('s_0', 's_1', 's_2', 'Fontname', 'Times', 'Fontsize', 13, 'Location', 'northwest')
+% %set(gca, 'XTicklabel', [])
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Angle Err. (deg)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel('(e)', 'Fontname', 'Times', 'Fontsize', 15)
+% grid on
+% xlim([0 23])
+% ylim([0 65])
+% 
+% H23 = subplot(2,3,6);
+% plot(timeSeries, DOToObsDistance, 'Linewidth', 2)
+% hold on
+% plot(timeSeries, eeToObsDistance, 'Linewidth', 2)
+% legend('DO-obstacle', 'ee-obstacle', 'Fontname', 'Times', 'Fontsize', 13)
+% %set(gca, 'XTicklabel', [])
+% xTickObj = get(gca, 'XTickLabel');
+% set(gca, 'XTickLabel', xTickObj, 'Fontsize', 11)
+% ylabel('Obstacle Dist. (px)', 'Fontname', 'Times', 'Fontsize', 15)
+% xlabel({'Time (s)'; '(f)'}, 'Fontname', 'Times', 'Fontsize', 15)
+% grid on
+% xlim([0 23])
+% ylim([0 170])
+% set(gcf, 'Renderer', 'Painters');
+% % print(fig5, './Figure/DataAnalysis_0729_2130_UnitedInOne', '-depsc')
