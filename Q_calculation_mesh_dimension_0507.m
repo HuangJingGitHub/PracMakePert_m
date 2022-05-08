@@ -84,6 +84,7 @@ DO_mesh = flipud(DO_mesh);
 % end
 % DO_mesh = DO_mesh / boundary_max;
 
+
 %% figure
 fig = figure('Position', [200, 200, 500, 250]);
 ht1 = heatmap(DO_mesh, 'Colormap', jet);
