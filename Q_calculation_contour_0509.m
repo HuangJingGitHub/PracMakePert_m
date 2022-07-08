@@ -73,7 +73,6 @@ set(h1, 'Position', [0.08, 0.12, 0.4, 0.8])
 set(h1, 'FontSize', 16)
 set(h1, 'YTick', -150:100:350)
 
-
 h2 = subplot(1, 2, 2);
 plot(DO_contour_pts(1, :), DO_contour_pts(2, :), 'Color', 'b', 'LineWidth', 1.5)
 hold on
