@@ -147,7 +147,8 @@ function s_g = get_grasping_position_for_single_pt(DO_contour_pts, s_0, s_d, k)
     gamma = 0.2;
     r = 5;
     delta_r = 10;
-    delta = 0.1;
+    delta_p = 0.1;
+    delta_g = 0.2;
     alpha_0 = pi / 6;
     alpha_1 = pi / 6 * 5;
     for contour_idx = 1 : size(DO_contour_pts, 2)
@@ -161,9 +162,9 @@ function s_g = get_grasping_position_for_single_pt(DO_contour_pts, s_0, s_d, k)
                 d_i = s_0_i - s_g;
                 d_i_norm = norm(d_i);
                 alpha_i = acos(e_i' * d_i / (e_i_norm * d_i_norm));
-                xi = 1;
+                xi = 1 + delta_d;
                 if alpha_i <= alpha_0 || alpha_i >= alpha_1
-                    xi = 1 + delta;
+                    xi = 1 + delta_p;
                 end
                 s_d_g = s_g + xi * e_i;
 
