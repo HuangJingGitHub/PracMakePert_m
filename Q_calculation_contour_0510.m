@@ -67,7 +67,6 @@ text(s_0(1,2) -12, s_0(2,2) - 15, 's_2', 'FontSize', 18);
 text(s_0(1,3) + 10, s_0(2,3) + 0, 's_3', 'FontSize', 18);
 text(s_g_1(1,1) - 10, s_g_1(2,1) - 24, 's_{g,1}', 'FontSize', 18);
 text(s_g_2(1,1) - 10, s_g_2(2,1) + 32, 's_{g,2}', 'FontSize', 18);
-
 axis equal
 %axis equal
 axis([0, 500, -50, 250])
