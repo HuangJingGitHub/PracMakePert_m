@@ -45,7 +45,7 @@ for row = 1 : size(DO_mesh, 1)
         end
         s_d_g = s_g + xi * e_i;
         
-        % integrate
+        % integration
         step_num = 100;
         step_len = e_i_norm / step_num;
         q_i = 0;
