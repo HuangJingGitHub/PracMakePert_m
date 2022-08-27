@@ -3,19 +3,29 @@ close all
 clc
 
 %% Input
-% clockwise
-DO_control_pts = [0.0, 0.2, 2.0,  3.6, 4.5, 4.35, 3.0, 1.75, 0.35, -0.20, 0;
-                  0.5, 0.1, 0.6, -0.1, 0.7, 1.60, 2.1, 2.20, 1.80, 1.30, 0.5] + [0.25; 0];
-t = 0:0.02:1;
+% anticlockwise
+% DO_control_pts = [0.0, 0.2, 2.0,  3.6, 4.5, 4.35, 3.0, 1.75, 0.35, -0.20, 0;
+%                   0.5, 0.1, 0.6, -0.1, 0.7, 1.60, 2.1, 2.20, 1.80, 1.30, 0.5] + [0.25; 0];
+% for i = 1 : size(DO_control_pts, 2)
+%     DO_control_pts(2, i) = 2.3 - DO_control_pts(2, i);
+% end
+DO_control_pts = [0.02, 0.21, 2.0, 3.95, 4.65, 4.55, 3.0, 1.75, 0.35, -0.15, 0.02;
+                  0.5, 0.12, -0.25, -0.1, 0.7, 1.60, 2.1, 2.15, 1.80, 1.30, 0.5] + [0.25; 0];
+t = 0:0.01:1;
 DO_contour_pts = open_quadratic_bspline(DO_control_pts, t);
 DO_control_pts = 100 * DO_control_pts;
 DO_contour_pts = 100 * DO_contour_pts;
 
-s_0 = [300, 375, 400;
-       60,  75, 50];
-e_i_direction = [5, 5, 5; 
-                 5, 3, 6];       
-e_i_length = [60, 60, 80];
+% s_0 = [300, 340, 380, 420;
+%        100, 100, 100, 100];
+% e_i_direction = [-1, -1, -1, -1; 
+%                  5, 5, 5, 5];       
+% e_i_length = [30, 45, 60, 78];
+s_0 = [330, 370, 410;
+       155, 145, 125];
+e_i_direction = [-1, -1, -1; 
+                 -5, -5, -5];       
+e_i_length = [30, 45, 70];
 for col = 1 : size(e_i_direction, 2)
     e_i_direction(:, col) = e_i_direction(:, col) / norm(e_i_direction(:, col));
 end
@@ -29,8 +39,10 @@ S_g = select_grasping_positions(DO_contour_pts, s_0, s_d, e_i_length);
 %% figure
 fig = figure('Position', [200 200 1200 400]);
 h1 = subplot(1, 2, 1);
-plot(DO_contour_pts(1, :), DO_contour_pts(2, :), 'Color', 'b', 'LineWidth', 1.5)
+plot(DO_contour_pts(1, :), DO_contour_pts(2, :), 'Color', 'k', 'LineWidth', 1.5)
 hold on
+% plot(DO_control_pts(1, :), DO_control_pts(2, :), 'Color', 'r', 'LineWidth', 1.5)
+% hold on
 % plot([s_0(1, 1), s_0(1, 2)], [s_0(2,1), s_0(2, 2)], '-o', 'Color', 'k', 'LineWidth', 2, ...
 %      'MarkerSize', 5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k')
 % hold on
@@ -41,10 +53,18 @@ for i = 1 : size(s_0, 2)
            'Color', 'r', 'LineWidth', 2, 'MaxHeadSize', 1);
     hold on
 end
-for i = 1 : 5
-    plot(S_g(1, i), S_g(2, i), 'o', 'MarkerSize', 12, 'MarkerFaceColor', 'r')
-    hold on
-end
+
+plot(S_g(1, 1), S_g(2, 1), 'o', 'MarkerSize', 12, 'MarkerFaceColor', 'm', 'MarkerEdgeColor', 'k')
+hold on
+plot(S_g(1, 2), S_g(2, 2), 's', 'MarkerSize', 12, 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k')
+hold on
+plot(S_g(1, 3), S_g(2, 3), 'd', 'MarkerSize', 12, 'MarkerFaceColor', 'c', 'MarkerEdgeColor', 'k')
+hold on
+plot(S_g(1, 4), S_g(2, 4), '^', 'MarkerSize', 12, 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'k')
+hold on
+plot(S_g(1, 5), S_g(2, 5), 'p', 'MarkerSize', 12, 'MarkerFaceColor', 'y', 'MarkerEdgeColor', 'k')
+hold on
+
 % plot(s_g_2(1, 1), s_g_2(2, 1), 'o', 'MarkerSize', 12, 'MarkerFaceColor', 'g')
 % hold on
 % text(s_0(1,1) - 18, s_0(2,1) - 12, 's_1', 'FontSize', 20);
@@ -54,15 +74,16 @@ end
 % text(s_g_2(1,1) + 2, s_g_2(2,1) + 21, 's_{g,2}', 'FontSize', 20);
 % text(28, 220, '(a)', 'FontName', 'Times', 'FontSize', 27);
 % 
-% axis equal
+axis equal
 % %axis equal
-% axis([0, 500, -50, 250])
+axis([0, 500, -50, 250])
 % xlabel('x', 'Fontsize', 20)
 % ylabel('y', 'Fontsize', 20)
 grid on
 set(h1, 'Position', [0.08, 0.15, 0.4, 0.8])
 % set(h1, 'FontSize', 18)
-% set(h1, 'YTick', -150:100:350)
+set(h1, 'YTick', -150:100:350)
+set(h1, 'XTick', 0:100:500)
 % 
 % 
 % h2 = subplot(1, 2, 2);
@@ -128,9 +149,14 @@ function S_g = select_grasping_positions(DO_contour_pts, s_0, s_d, e_i_length)
     S_g = zeros(2, 5);
     
     k = size(s_0, 2);
-
+    
+    e_i_vec = s_d - s_0;
+    e_g = sum(e_i_vec, 2) / k;
+  
     [~, original_s_idx] = sort(e_i_length, 'descend');
     max_e_i_idx = original_s_idx(1, 1);
+    xi = 1.5 * e_i_length(max_e_i_idx) / norm(e_g);
+    
     max_e_i_length = e_i_length(1, max_e_i_idx);
     %e_i_weight = e_i_length / max_e_i_length;
     e_i_weight = e_i_length / sum(e_i_length, 2);
@@ -149,19 +175,18 @@ function S_g = select_grasping_positions(DO_contour_pts, s_0, s_d, e_i_length)
     metrics_max = zeros(1, 5);
     for i = 1 : size(DO_contour_pts, 2)
         s_g = DO_contour_pts(:, i);
+        s_d_g = s_g + xi * e_g;
         metrics = zeros(1, 5);
         
         for j = 1 : k
             s_0_i = s_0(:, j);
-            d_i = s_0_i - s_g;
             M_j = compute_static_metric(s_g, s_0_i, s_d(:, j));
             metrics(1, 1) = metrics(1, 1) + M_j;
             metrics(1, 2) = metrics(1, 2) + e_i_weight(1, j) * M_j;
-            metrics(1, 5) = metrics(1, 5) + e_i_length(1, j) * M_j;
+            metrics(1, 5) = metrics(1, 5) + integrate_metric(s_g, s_d_g, s_0_i, s_d(:, j));
         end
         metrics(1, 3) = compute_static_metric(s_g, s_0_centroid, s_d_centroid);
         metrics(1, 4) = compute_static_metric(s_g, s_0_weighted_centroid, s_d_weighted_centroid);
-        
         for idx = 1 : 5
             if metrics(1, idx) > metrics_max(1, idx)
                 metrics_max(1, idx) = metrics(1, idx);
@@ -171,9 +196,26 @@ function S_g = select_grasping_positions(DO_contour_pts, s_0, s_d, e_i_length)
     end
 end
 
+%%
+function M_i = integrate_metric(s_g, s_d_g, s_0, s_d)
+    M_i = 0;
+    
+    e_g = s_d_g - s_g;
+    e_i = s_d - s_0;
+    steps = 100;
+    delta_path = norm(e_i) / steps;
+    for i = 1 : steps - 1
+        s_g_cur = s_g + i / steps * e_g;
+        s_i_cur = s_0 + i / steps * e_i;
+        M_i_cur = compute_static_metric(s_g_cur, s_i_cur, s_d);
+        M_i = M_i + M_i_cur * delta_path;
+    end
+end
 
+
+%%
 function M_i = compute_static_metric(s_g, s_0, s_d) 
-        k_d = 0.005;
+        k_d = 0.002;
         gamma = 0.4;
         r = 10;
         delta_r = 2;
@@ -181,7 +223,13 @@ function M_i = compute_static_metric(s_g, s_0, s_d)
         d_i = s_0 - s_g;
         d_i_norm = norm(d_i);
         e_i = s_d - s_0;
-        alpha_i = acos(e_i' * d_i / (norm(e_i) * norm(d_i)));
+        cos_val = e_i' * d_i / (norm(e_i) * norm(d_i));
+        if cos_val < -1
+            cos_val = -1;
+        elseif cos_val > 1
+            cos_val = 1;
+        end
+        alpha_i = acos(cos_val);
 
         h_1 = exp(-k_d * d_i_norm);
         h_2 = 1 - gamma * sin(alpha_i);
