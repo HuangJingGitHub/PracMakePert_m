@@ -9,8 +9,11 @@ clc
 % for i = 1 : size(DO_control_pts, 2)
 %     DO_control_pts(2, i) = 2.3 - DO_control_pts(2, i);
 % end
-DO_control_pts = [0.02, 0.21, 2.0, 3.95, 4.65, 4.55, 3.0, 1.75, 0.35, -0.15, 0.02;
-                  0.5, 0.12, -0.25, -0.1, 0.7, 1.60, 2.1, 2.15, 1.80, 1.30, 0.5] + [0.25; 0];
+% DO_control_pts = [0.02, 0.21, 2.0, 3.95, 4.65, 4.55, 3.0, 1.75, 0.35, -0.15, 0.02;
+%                   0.5, 0.12, -0.25, -0.1, 0.7, 1.60, 2.1, 2.15, 1.80, 1.30, 0.5] + [0.25; 0];
+DO_control_pts = [0.71, 1, 0.3,  2.5  4.7,  4, 4.7,  2.5,  0.3, 0.71;
+                  1.64,  1, -0.4, 0,  -0.4, 1, 2.4,   2,    2.4, 1.64];
+
 t = 0:0.01:1;
 DO_contour_pts = open_quadratic_bspline(DO_control_pts, t);
 DO_control_pts = 100 * DO_control_pts;
@@ -21,11 +24,18 @@ DO_contour_pts = 100 * DO_contour_pts;
 % e_i_direction = [-1, -1, -1, -1; 
 %                  5, 5, 5, 5];       
 % e_i_length = [30, 45, 60, 78];
-s_0 = [330, 370, 410;
-       155, 145, 125];
+% s_0 = [330, 370, 410;
+%        155, 145, 125];
+% e_i_direction = [-1, -1, -1; 
+%                  -5, -5, -5];       
+% e_i_length = [30, 45, 70];
+s_0 = [280, 320, 360;
+       170, 160, 150];
 e_i_direction = [-1, -1, -1; 
                  -5, -5, -5];       
-e_i_length = [30, 45, 70];
+e_i_length = [60, 40, 30];
+
+
 for col = 1 : size(e_i_direction, 2)
     e_i_direction(:, col) = e_i_direction(:, col) / norm(e_i_direction(:, col));
 end
@@ -33,13 +43,13 @@ s_d = zeros(size(s_0));
 for col = 1 : size(s_0, 2)
     s_d(:, col) = s_0(:, col) + e_i_length(1, col) * e_i_direction(:, col);
 end
-S_g = select_grasping_positions(DO_contour_pts, s_0, s_d, e_i_length);
+S_g = select_grasping_positions(DO_contour_pts, s_0, s_d);
 
 
 %% figure
-fig = figure('Position', [200 200 1200 400]);
-h1 = subplot(1, 2, 1);
-plot(DO_contour_pts(1, :), DO_contour_pts(2, :), 'Color', 'k', 'LineWidth', 1.5)
+fig1 = figure('Position', [200 200 450 250]);
+%h1 = subplot(1, 2, 1);
+plot(DO_contour_pts(1, :), DO_contour_pts(2, :), 'Color', 'b', 'LineWidth', 1.5)
 hold on
 % plot(DO_control_pts(1, :), DO_control_pts(2, :), 'Color', 'r', 'LineWidth', 1.5)
 % hold on
@@ -80,45 +90,15 @@ axis([0, 500, -50, 250])
 % xlabel('x', 'Fontsize', 20)
 % ylabel('y', 'Fontsize', 20)
 grid on
-set(h1, 'Position', [0.08, 0.15, 0.4, 0.8])
-% set(h1, 'FontSize', 18)
-set(h1, 'YTick', -150:100:350)
-set(h1, 'XTick', 0:100:500)
-% 
-% 
-% h2 = subplot(1, 2, 2);
-% plot(DO_contour_pts(1, :), DO_contour_pts(2, :), 'Color', 'b', 'LineWidth', 1.5)
-% hold on
-% plot([s_0_opp(1, 1), s_0_opp(1, 2)], [s_0_opp(2,1), s_0_opp(2, 2)], '-o', 'Color', 'k', 'LineWidth', 2, ...
-%      'MarkerSize', 5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k')
-% hold on
-% plot([s_0_opp(1, 1), s_0_opp(1, 3)], [s_0_opp(2,1), s_0_opp(2, 3)], '-o', 'Color', 'k', 'LineWidth', 2, ...
-%      'MarkerSize', 5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k') 
-% for i = 1 : size(s_0, 2)
-%     quiver(s_0_opp(1, i), s_0_opp(2, i), s_d_opp(1, i) - s_0_opp(1, i), s_d_opp(2, i) - s_0_opp(2, i), ...
-%            'Color', 'r', 'LineWidth', 2, 'MaxHeadSize', 1);
-%     hold on
-% end
-% plot(s_g_1_opp(1, 1), s_g_1_opp(2, 1), 'o', 'MarkerSize', 12, 'MarkerFaceColor', 'r')
-% hold on
-% plot(s_g_2_opp(1, 1), s_g_2_opp(2, 1), 'o', 'MarkerSize', 12, 'MarkerFaceColor', 'g')
-% hold on
-% text(s_0_opp(1,1) - 8, s_0_opp(2,1) - 18, 's_1', 'FontSize', 20);
-% text(s_0_opp(1,2) - 8, s_0_opp(2,2) - 16, 's_2', 'FontSize', 20);
-% text(s_0_opp(1,3) - 2, s_0_opp(2,3) - 18, 's_3', 'FontSize', 20);
-% text(s_g_1_opp(1,1) - 12, s_g_1_opp(2,1) - 20, 's_{g,1}', 'FontSize', 20);
-% text(s_g_2_opp(1,1) - 20, s_g_2_opp(2,1) + 32, 's_{g,2}', 'FontSize', 20);
-% axis equal
-% %axis equal
-% axis([0, 500, -50, 250])
-% xlabel('x', 'Fontsize', 20)
-% ylabel('y', 'Fontsize', 20)
-% grid on
-% set(h2, 'Position', [0.56, 0.15, 0.4, 0.8])
-% set(h2, 'FontSize', 18)
-% set(h2, 'YTick', -150:100:350)
-% set(gcf, 'Renderer', 'Painters');
-% print(fig, './Figure/3pts_angle_like_feature', '-depsc')
+%set(h1, 'Position', [0.08, 0.15, 0.4, 0.8])
+% set(h1, 'FontSize', 18)[0.1300 0.1100 0.7750 0.8150]
+set(gca, 'Position', [0.0500 0.1 0.94 0.88])
+set(gca, 'YTick', -150:100:350)
+set(gca, 'XTick', 0:100:500)
+set(gca, 'FontSize', 12)
+set(gcf, 'Renderer', 'Painters');
+print(fig1, './Figure/Shape_3', '-depsc')
+
 
 %% function from MMU-UK for open uniform B-spline curves
 function S = open_quadratic_bspline(P, t)
@@ -145,20 +125,24 @@ end
 
 
 %%
-function S_g = select_grasping_positions(DO_contour_pts, s_0, s_d, e_i_length) 
+function S_g = select_grasping_positions(DO_contour_pts, s_0, s_d) 
     S_g = zeros(2, 5);
     
     k = size(s_0, 2);
     
     e_i_vec = s_d - s_0;
     e_g = sum(e_i_vec, 2) / k;
+    e_i_length = zeros(1, k);
+    for i = 1 : k
+        e_i_length(1, i) = norm(e_i_vec(:, i));
+    end
   
     [~, original_s_idx] = sort(e_i_length, 'descend');
     max_e_i_idx = original_s_idx(1, 1);
     xi = 1.5 * e_i_length(max_e_i_idx) / norm(e_g);
     
-    max_e_i_length = e_i_length(1, max_e_i_idx);
-    %e_i_weight = e_i_length / max_e_i_length;
+    % max_e_i_length = e_i_length(1, max_e_i_idx);
+    % e_i_weight = e_i_length / max_e_i_length;
     e_i_weight = e_i_length / sum(e_i_length, 2);
 
     s_0_centroid = sum(s_0, 2) / k;
