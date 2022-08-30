@@ -48,7 +48,7 @@ S_g = select_grasping_positions(DO_contour_pts, s_0, s_d);
 
 %% figure
 fig1 = figure('Position', [200 200 450 250]);
-%h1 = subplot(1, 2, 1);
+% h1 = subplot(1, 2, 1);
 plot(DO_contour_pts(1, :), DO_contour_pts(2, :), 'Color', 'b', 'LineWidth', 1.5)
 hold on
 % plot(DO_control_pts(1, :), DO_control_pts(2, :), 'Color', 'r', 'LineWidth', 1.5)
