@@ -28,6 +28,7 @@ for col = 1 : size(s_0, 2)
     s_d(:, col) = s_0(:, col) + e_i_length(1, col) * e_i_direction(:, col);
 end
  
+ 
 %% Discretize the DO contour
 left_bottom_vertex = DO_vertices(:, 1);
 left_up_vertex = DO_vertices(:, 2);
