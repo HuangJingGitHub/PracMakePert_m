@@ -7,19 +7,24 @@ clc
 DO_vertices = [0, 0, 100, 100;
                0, 50, 50, 0];
 vertices_num = size(DO_vertices, 2);
-s_1 = [40, 50, 60;
-       37.5, 25, 12.5];
-ref_direction = [5; 4];
-ref_direction = ref_direction / norm(ref_direction);
-e_i_length = [10, 20, 10];
-s_0 = zeros(2, 3);
-for i = 1 : 3
-    s_0(:, i) = s_1(:, i) - e_i_length(1, i) * ref_direction;
-end
-% s_0 = [20, 20; 
-%        15, 35];
-e_i_direction = [5, 5, 5; 
-                 4, 4, 4];
+% s_1 = [40, 50, 60;
+%        37.5, 25, 12.5];
+% ref_direction = [5; 4];
+% ref_direction = ref_direction / norm(ref_direction);
+% e_i_length = [10, 20, 10];
+% s_0 = zeros(2, 3);
+% for i = 1 : 3
+%     s_0(:, i) = s_1(:, i) - e_i_length(1, i) * ref_direction;
+% end
+% e_i_direction = [5, 5, 5; 
+%                  4, 4, 4];
+
+s_0 = [20, 20, 20;
+       15, 25, 35];
+e_i_length = [5, 10, 20];
+e_i_direction = [1, 1, 1;
+                 0, 0, 0];
+
 for col = 1 : size(e_i_direction, 2)
     e_i_direction(:, col) = e_i_direction(:, col) / norm(e_i_direction(:, col));
 end
@@ -27,7 +32,6 @@ s_d = zeros(size(s_0));
 for col = 1 : size(s_0, 2)
     s_d(:, col) = s_0(:, col) + e_i_length(1, col) * e_i_direction(:, col);
 end
- 
  
 %% Discretize the DO contour
 left_bottom_vertex = DO_vertices(:, 1);
@@ -60,9 +64,10 @@ ht1 = heatmap(M_1, 'Colormap', jet);
 ht1.CellLabelColor = 'none';
 ht1.CellLabelFormat = '%0.2f';
 ht1.ColorbarVisible = 'off';
-set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
-set(gcf, 'Renderer', 'Painters');
-print(fig1, './Figure/Fold_Mesh_1', '-depsc')
+% set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
+% set(gcf, 'Renderer', 'Painters');
+% print(fig1, './Figure/Fold_Mesh_1', '-depsc')
+
 %print(fig1, 'Rectangle_Centered_Mesh_0_PNG', '-dpng')
 %exportgraphics(fig, 'Rectangle_Centered_Mesh_0.png','Resolution', 2000)  % Less margin in the
 %outputed image
@@ -74,9 +79,9 @@ ht1 = heatmap(M_2, 'Colormap', jet);
 ht1.CellLabelColor = 'none';
 ht1.CellLabelFormat = '%0.2f';
 ht1.ColorbarVisible = 'off';
-set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
-set(gcf, 'Renderer', 'Painters');
-print(fig2, './Figure/Fold_Mesh_2', '-depsc')
+% set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
+% set(gcf, 'Renderer', 'Painters');
+% print(fig2, './Figure/Fold_Mesh_2', '-depsc')
 
 fig3 = figure('Position', [240, 200, 450, 225]);
 ax = axes('Parent', fig3);
@@ -85,9 +90,9 @@ ht1 = heatmap(M_3, 'Colormap', jet);
 ht1.CellLabelColor = 'none';
 ht1.CellLabelFormat = '%0.2f';
 ht1.ColorbarVisible = 'off';
-set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
-set(gcf, 'Renderer', 'Painters');
-print(fig3, './Figure/Fold_Mesh_3', '-depsc')
+% set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
+% set(gcf, 'Renderer', 'Painters');
+% print(fig3, './Figure/Fold_Mesh_3', '-depsc')
 
 fig4 = figure('Position', [260, 200, 450, 225]);
 ax = axes('Parent', fig4);
@@ -96,9 +101,9 @@ ht1 = heatmap(M_4, 'Colormap', jet);
 ht1.CellLabelColor = 'none';
 ht1.CellLabelFormat = '%0.2f';
 ht1.ColorbarVisible = 'off';
-set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
-set(gcf, 'Renderer', 'Painters');
-print(fig4, './Figure/Fold_Mesh_4', '-depsc')
+% set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
+% set(gcf, 'Renderer', 'Painters');
+% print(fig4, './Figure/Fold_Mesh_4', '-depsc')
 
 fig5 = figure('Position', [280, 200, 450, 225]);
 ax = axes('Parent', fig5);
@@ -107,9 +112,9 @@ ht1 = heatmap(M_5, 'Colormap', jet);
 ht1.CellLabelColor = 'none';
 ht1.CellLabelFormat = '%0.2f';
 ht1.ColorbarVisible = 'off';
-set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
-set(gcf, 'Renderer', 'Painters');
-print(fig5, './Figure/Fold_Mesh_5', '-depsc')
+% set(gca, 'Position', [0.0500 0.1165 0.94 0.81])
+% set(gcf, 'Renderer', 'Painters');
+% print(fig5, './Figure/Fold_Mesh_5', '-depsc')
 
 
 %%
