@@ -55,6 +55,7 @@ error_reduction_cc = zeros(7, 1);
 [err_reduction_s_2pt, error_reduction_cc(6, 1)] = computeReductionRatebyCase(sponge_2pt_dm, sponge_2pt_mm);
 [err_reduction_s_3pt, error_reduction_cc(7, 1)] = computeReductionRatebyCase(sponge_3pt_dm, sponge_3pt_mm);
 %%
+
 err_reduction = zeros(7, 2);
 for i = 1 : 7
     err_reduction(i, 1) = (average_err(i, 1) - average_err(i, 2)) / average_err(i, 1);
