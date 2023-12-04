@@ -5,11 +5,11 @@ clc
 addpath('./p_poly_dist')
 
 obs_dimension = [1, 1];  % obs length, width
-obs_num = 40;
+obs_num = 10;
 obs_center = zeros(obs_num, 2);
 
 x_map_limit = [0, 50];
-y_map_limit = [0, 25];
+y_map_limit = [0, 30];
 
 x_length = x_map_limit(1, 2) - x_map_limit(1, 1);
 y_length = y_map_limit(1, 2) - y_map_limit(1, 1);
@@ -32,7 +32,6 @@ for i = 1 : obs_num
        nearest_idx = knnsearch(obs_center, cur_center);
        dist_vec = cur_center - obs_center(nearest_idx, :);   
    end
-   obs_center(i, :) = cur_center;
    
    x_clearance = obs_dimension(1, 1) / 2;
    if cur_x < x_map_limit(1, 1) + x_clearance
@@ -47,6 +46,7 @@ for i = 1 : obs_num
    elseif cur_y > y_map_limit(1, 2) - y_clearance
        cur_y = y_map_limit(1, 2) - y_clearance;
    end
+   obs_center(i, :) = [cur_x, cur_y];
    
    obs_array(i) = polyshape([cur_x - x_clearance, cur_x + x_clearance, cur_x + x_clearance, cur_x - x_clearance],...
                            [cur_y - y_clearance, cur_y - y_clearance, cur_y + y_clearance, cur_y + y_clearance]);
@@ -55,25 +55,37 @@ end
 valid_passage_num = size(valid_passage_pair, 1)
 valid_passage_visibility_num = size(valid_passage_visibility_pair, 1)
 
-fig = figure('Position', [441 336 1080 540]);
-for i = 1 : obs_num
-    plot(obs_array(i), 'FaceColor', 'k')
-    hold on
-end
+fig_1 = figure('Position', [450 350 1000 600]);
 for i = 1 : valid_passage_visibility_num
     obsIdx1 = valid_passage_visibility_pair(i, 1);
     obsIdx2 = valid_passage_visibility_pair(i, 2);
     plot([obs_center(obsIdx1, 1), obs_center(obsIdx2, 1)], ...
-         [obs_center(obsIdx1, 2), obs_center(obsIdx2, 2)], '--k')
+         [obs_center(obsIdx1, 2), obs_center(obsIdx2, 2)], '--', 'Color', [0 0.4470 0.7410], ...
+         'LineWidth', 1)
+    hold on
 end
 for i = 1 : valid_passage_num
     obsIdx1 = valid_passage_pair(i, 1);
     obsIdx2 = valid_passage_pair(i, 2);
     plot([obs_center(obsIdx1, 1), obs_center(obsIdx2, 1)], ...
-         [obs_center(obsIdx1, 2), obs_center(obsIdx2, 2)], '--r')
+         [obs_center(obsIdx1, 2), obs_center(obsIdx2, 2)], 'Color', 'k', 'LineWidth', 1.5)
+    hold on
+end
+for i = 1 : obs_num
+    plot(obs_array(i), 'FaceColor', 'k', 'FaceAlpha', 1)
+    hold on
 end
 axis('equal')
 axis([x_map_limit(1, 1), x_map_limit(1, 2), y_map_limit(1, 1), y_map_limit(1, 2)])
+ax = gca;
+% ax.FontName = 'Arial';
+ax.FontSize = 18;
+ax.Box = 'on';
+ax.LineWidth = 1.5;
+xlabel('x', 'FontSize', 21)
+ylabel('y', 'FontSize', 21)
+set(gcf, 'Renderer', 'Painters')
+% print(fig_1, './Figures/Obstacle_Filter_Setup_1202', '-depsc')
 
 
 %%
