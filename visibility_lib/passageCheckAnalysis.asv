@@ -53,10 +53,8 @@ function passage_check_info = passageCheckAnalysis(obs_num, test_num)
            cur_rotz = rotz(cur_rotate_angle);
            cur_rotz = cur_rotz(1:2, 1:2);
            rotated_obs_pos = cur_rotz * std_obs_pos;
-           rotated_obs_pos(1, :) = rotated_obs_pos(1, :) + cur_x;
-           rotated_obs_pos(2, :) = rotated_obs_pos(2, :) + cur_y;
-           
-           obs_array(i) = polyshape(rotated_obs_pos(1, :), rotated_obs_pos(2,:));
+   
+           obs_array(i) = polyshape([cur_x - ])
 %            obs_array(i) = polyshape([cur_x - x_clearance, cur_x + x_clearance, cur_x + x_clearance, cur_x - x_clearance],...
 %                                    [cur_y - y_clearance, cur_y - y_clearance, cur_y + y_clearance, cur_y + y_clearance]);
         end

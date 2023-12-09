@@ -34,7 +34,7 @@ function orientation_type = orientationType(p_1, p_2, r)
         error('Wrong dimension of input points')
     end
     det_val = det([segment_vec_1, segment_vec_2]);
-    if abs(det_val) < 0.0001
+    if abs(det_val) < 1e-7
         orientation_type = 0;
     elseif det_val > 0
         orientation_type = 1;
