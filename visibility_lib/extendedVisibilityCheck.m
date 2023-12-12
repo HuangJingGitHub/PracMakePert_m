@@ -24,7 +24,7 @@ function [valid_passage_pair, valid_passage_visibility_pair] = extendedVisibilit
                 y_d_min_pair = [y_obs_i(1, d_min_idx_i_j), y_min_i_j(d_min_idx_i_j, 1)];
             else
                 min_dist = d_min_val_j_i;
-                x_d_min_pair = [x_obs_j(1, d_min_idx_j_i), x_min_j_i(d_min_idx_i_j, 1)];
+                x_d_min_pair = [x_obs_j(1, d_min_idx_j_i), x_min_j_i(d_min_idx_j_i, 1)];
                 y_d_min_pair = [y_obs_j(1, d_min_idx_j_i), y_min_j_i(d_min_idx_j_i, 1)];              
             end
             passage_pt_1 = [x_d_min_pair(1, 1), y_d_min_pair(1, 1)];
