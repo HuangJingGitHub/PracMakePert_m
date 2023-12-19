@@ -24,4 +24,3 @@ tic;
 toc;
 disp('Using built-in knn function to find the nearest neighbor is: ')
 disp(minDistIdx)
-
