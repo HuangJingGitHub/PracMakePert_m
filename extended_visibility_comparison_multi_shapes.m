@@ -30,6 +30,7 @@ if is_data_store_needed
     save(save_path, 'passage_check_info_list');
 end
 
+
 if is_data_store_needed == false
     load('./Saved Data/13-Dec-2023 14-41-31 passage_check_various_shapes.mat')
     obs_num_list = zeros(size(passage_check_info_list));
@@ -78,11 +79,11 @@ err_2.LineWidth = 1;
 set(gca, 'FontSize', 15)
 ylabel('Passage number', 'FontName', 'Arial', 'FontSize', 17);
 xlabel('Obstacle number', 'FontName', 'Arial', 'FontSize', 17);
-leg_1 = legend({'Visibility condition', 'Extended visibility condition'},'FontName', 'Arial', 'FontSize', 17, 'Location', 'northwest');
+leg_1 = legend({'Extended visibility condition', 'Visibility condition'},'FontName', 'Arial', 'FontSize', 17, 'Location', 'northwest');
                 %'Position', [0.18 0.8067 0.3576 0.0991]);
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'on';
 %ylim([0, 1500])
 set(gcf, 'Renderer', 'Painters')
-% print(fig_1, './Figures/Passage_Number_Obs_Num_Multi_Shapes_Dims_12_13', '-depsc')
+% print(fig_1, './Figures/Passage_Number_Obs_Num_Multi_Shapes_1x1_1213', '-depsc')
