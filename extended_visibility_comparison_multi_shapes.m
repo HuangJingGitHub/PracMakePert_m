@@ -30,7 +30,6 @@ if is_data_store_needed
     save(save_path, 'passage_check_info_list');
 end
 
-
 if is_data_store_needed == false
     load('./Saved Data/13-Dec-2023 14-41-31 passage_check_various_shapes.mat')
     obs_num_list = zeros(size(passage_check_info_list));
