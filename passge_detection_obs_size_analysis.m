@@ -80,7 +80,7 @@ err_2.LineWidth = 1;
 set(gca, 'FontSize', 16)
 ylabel('Passage number', 'FontName', 'Arial', 'FontSize', 18);
 xlabel('Obstacle side length (40 obstacles)', 'FontName', 'Arial', 'FontSize', 18);
-leg_1 = legend({'Passage regions', 'Passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
+% leg_1 = legend({'Passage regions', 'Passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
                 %'Position', [0.18 0.8067 0.3576 0.0991]);
 ax = gca;
 ax.XGrid = 'off';
@@ -105,7 +105,7 @@ err_2_2.LineWidth = 1;
 set(gca, 'FontSize', 16)
 ylabel('Cell number', 'FontName', 'Arial', 'FontSize', 18);
 xlabel('Obstacle side length (40 obstacles)', 'FontName', 'Arial', 'FontSize', 18);
-leg_2 = legend({'Passage regions', 'Passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
+% leg_2 = legend({'Passage regions', 'Passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
                 %'Position', [0.18 0.8067 0.3576 0.0991]);
 ax = gca;
 ax.XGrid = 'off';
