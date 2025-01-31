@@ -16,6 +16,7 @@ trial_num = 50;
 %% 1-passage number using brute-force traversal-2-passage number detected using Delaunay graph
 %% -3-valid passage segments number in extended visibility check-4-cell number in Gabriel condition
 %% -5-cell number from valid passage segments
+%{
 for i = 1 : length(file_list)
     file = file_list(i, 1);
     if length(file.name) < 3
@@ -63,7 +64,9 @@ for i = 1 : length(file_list)
     res(res_row, 8) = sum(cell_num_from_psg_seg) / trial_num;
     res(res_row, 9) = std(cell_num_from_psg_seg);
 end
+%}
 
+load('passage_data_analyzed_varying_sizes_variable.mat')
 %%
 fig_1 = figure('Position', [200, 200, 920, 570]);
 bar_1 = bar(side_len_list, [res(:, 2), res(:, 4)], 'BarWidth', 1.2);
@@ -87,7 +90,10 @@ ax.XGrid = 'off';
 ax.YGrid = 'on';
 ylim([0, 100])
 set(gcf, 'Renderer', 'Painters')
-print(fig_1, '../img/Passage_Num_Obs_Num_Size_Variable_0127', '-depsc')
+drawnow
+pause(0.1)
+fig_1.Position = [200, 200, 920, 570];
+% print(fig_1, '../img/Passage_Num_Obs_Num_Size_Variable_0127', '-depsc')
 
 %%
 fig_2 = figure('Position', [400, 400, 920, 570]);
@@ -112,4 +118,7 @@ ax.XGrid = 'off';
 ax.YGrid = 'on';
 ylim([0, 100])
 set(gcf, 'Renderer', 'Painters')
-print(fig_2, '../img/Cell_Num_Obs_Num_Size_Variable_0127', '-depsc')
+drawnow
+pause(0.1)
+fig_2.Position = [400, 400, 920, 570];
+% print(fig_2, '../img/Cell_Num_Obs_Num_Size_Variable_0127', '-depsc')

@@ -93,8 +93,12 @@ ax.XGrid = 'off';
 ax.YGrid = 'on';
 ylim([0, 500])
 set(gcf, 'Renderer', 'Painters')
+% Figure size may be changed in plotting. Use drawnow to update figure and pause to let operations finish.
+drawnow
+pause(0.1)
+fig_1.Position = [200, 200, 920, 570];
 % print(fig_1, '../img/Passage_Num_Obs_Num_40_0121', '-depsc')
-print(fig_1, '../img/Passage_Num_Obs_Num_Varying_Size_0121', '-depsc')
+% print(fig_1, '../img/Passage_Num_Obs_Num_Varying_Size_0121', '-depsc')
 
 %%
 fig_2 = figure('Position', [400, 400, 920, 570]);
@@ -119,5 +123,8 @@ ax.XGrid = 'off';
 ax.YGrid = 'on';
 ylim([0, 500])
 set(gcf, 'Renderer', 'Painters')
+drawnow
+pause(0.1)
+fig_2.Position = [400, 400, 920, 570];
 % print(fig_2, '../img/Cell_Num_Obs_Num_40_0121', '-depsc')
-print(fig_2, '../img/Cell_Num_Obs_Num_Varying_Size_0121', '-depsc')
+% print(fig_2, '../img/Cell_Num_Obs_Num_Varying_Size_0121', '-depsc')
