@@ -32,7 +32,7 @@ for i = 1 : length(file_list)
         continue
     end
     vaying_obs_side_str = raw_str_data{5}(1, end - 4 : end);
-    if strcmp(vaying_obs_side_str, 'false') == 0
+    if strcmp(vaying_obs_side_str, ' true') == 0
         continue
     end
     
@@ -68,7 +68,8 @@ for i = 1 : length(file_list)
 end
 %}
 
-load('passage_data_analyszed_20250121.mat')
+% load('passage_data_analyzed_fixed_obs_sizes_20250121.mat')
+load('passage_data_analyzed_varying_obs_sizes_20250121.mat')
 %%
 fig_1 = figure('Position', [200, 200, 920, 570]);
 bar_1 = bar(obs_num_list, [res(:, 2), res(:, 4)], 'BarWidth', 1.2);
@@ -84,15 +85,15 @@ err_2.LineWidth = 1;
 
 set(gca, 'FontSize', 16)
 ylabel('Passage number', 'FontName', 'Arial', 'FontSize', 18);
-xlabel('Obstacle number', 'FontName', 'Arial', 'FontSize', 18);
-leg_1 = legend({'Gabriel condition', 'Only passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
+xlabel('Obstacle number (varying sizes)', 'FontName', 'Arial', 'FontSize', 18);
+% leg_1 = legend({'Passage regions', 'Passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
                 %'Position', [0.18 0.8067 0.3576 0.0991]);
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'on';
 ylim([0, 500])
 set(gcf, 'Renderer', 'Painters')
-%print(fig_1, '../img/Passage_Num_Obs_Num_40_0121', '-depsc')
+% print(fig_1, '../img/Passage_Num_Obs_Num_40_0121', '-depsc')
 print(fig_1, '../img/Passage_Num_Obs_Num_Varying_Size_0121', '-depsc')
 
 %%
@@ -110,13 +111,13 @@ err_2_2.LineWidth = 1;
 
 set(gca, 'FontSize', 16)
 ylabel('Cell number', 'FontName', 'Arial', 'FontSize', 18);
-xlabel('Obstacle number', 'FontName', 'Arial', 'FontSize', 18);
-leg_2 = legend({'Gabriel condition', 'Only passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
+xlabel('Obstacle number (varying sizes)', 'FontName', 'Arial', 'FontSize', 18);
+% leg_2 = legend({'Passage regions', 'Passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
                 %'Position', [0.18 0.8067 0.3576 0.0991]);
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'on';
 ylim([0, 500])
 set(gcf, 'Renderer', 'Painters')
-%print(fig_2, '../img/Cell_Num_Obs_Num_40_0121', '-depsc')
+% print(fig_2, '../img/Cell_Num_Obs_Num_40_0121', '-depsc')
 print(fig_2, '../img/Cell_Num_Obs_Num_Varying_Size_0121', '-depsc')
