@@ -31,11 +31,15 @@ for i = 1 : length(file_list)
     if mod(obs_num, obs_num_step) ~= 0
         continue
     end
-    vaying_obs_side_str = raw_str_data{5}(1, end - 4 : end);
-    if strcmp(vaying_obs_side_str, ' true') == 0
+    % vaying_obs_side_str = raw_str_data{5}(1, end - 4 : end);
+    % if strcmp(vaying_obs_side_str, ' true') == 0
+    %     continue
+    % end
+    continuous_side_len_str = raw_str_data{5}(1, 1:10);
+    if strcmp(continuous_side_len_str, 'Continuous') == false
         continue
     end
-    
+
     raw_data = zeros(50, 5);
     for col = 9:58
         str_data = raw_str_data{col, 1};
@@ -69,7 +73,10 @@ end
 %}
 
 % load('passage_data_analyzed_fixed_obs_sizes_20250121.mat')
-load('passage_data_analyzed_varying_obs_sizes_20250121.mat')
+% discrete obstacle side length, 20, 40, 60
+% load('passage_data_analyzed_varying_obs_sizes_20250121.mat') 
+% continuous varying side length 20 to 60, resolution 1.
+load('passage_data_analyzed_continuous_varying_obs_sizes_20250203.mat')
 %%
 fig_1 = figure('Position', [200, 200, 920, 570]);
 bar_1 = bar(obs_num_list, [res(:, 2), res(:, 4)], 'BarWidth', 1.2);
@@ -99,6 +106,7 @@ pause(0.1)
 fig_1.Position = [200, 200, 920, 570];
 % print(fig_1, '../img/Passage_Num_Obs_Num_40_0121', '-depsc')
 % print(fig_1, '../img/Passage_Num_Obs_Num_Varying_Size_0121', '-depsc')
+% print(fig_1, '../img/Passage_Num_Obs_Num_Varying_Size_0203', '-depsc')
 
 %%
 fig_2 = figure('Position', [400, 400, 920, 570]);
@@ -128,3 +136,4 @@ pause(0.1)
 fig_2.Position = [400, 400, 920, 570];
 % print(fig_2, '../img/Cell_Num_Obs_Num_40_0121', '-depsc')
 % print(fig_2, '../img/Cell_Num_Obs_Num_Varying_Size_0121', '-depsc')
+% print(fig_2, '../img/Cell_Num_Obs_Num_Varying_Size_0203', '-depsc')
