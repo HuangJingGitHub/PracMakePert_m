@@ -8,7 +8,7 @@ omap3D =  occupancyMap3D;
 map_length = 1000;
 map_width = 600;
 map_height = 400;
-obs_num = 20;
+obs_num = 60;
 
 obs_idx = 1;
 obs_heights = zeros(1, obs_num);
@@ -40,8 +40,6 @@ while obs_idx <= obs_num
     if out_of_box
         continue
     end
-    % obs_vertices = [x_pos, x_pos + width, x_pos + width, x_pos;
-    %                y_pos, y_pos, y_pos + length, y_pos + length];
     obs_poly = polyshape(obs_vertices(1, :), obs_vertices(2, :));
     in_intersection = false;
     for i = 1 : obs_idx - 1
@@ -69,20 +67,43 @@ height_idx_map = sortrows(height_idx_map, 'descend');
 height_idx_map = height_idx_map';
 height_idx_map = [height_idx_map, [0; 0]];
 
-height_passage_array = createArray(1, obs_num, 'height_passages');
+height_psg_array = createArray(1, obs_num, 'height_passages');
 for height_idx = 2 : obs_num
     obs_idx = height_idx_map(2, 1 : height_idx);
     test_obs_array = obs_array(obs_idx);
-    [valid_passage_pair, ~, passage_pts, ~] = extendedVisibilityCheck(test_obs_array);
-    valid_passage_pair = obs_idx(valid_passage_pair);
+    [valid_psg_pair, ~, psg_pts, ~] = extendedVisibilityCheck(test_obs_array);
+    valid_psg_pair = obs_idx(valid_psg_pair);
     height_low = height_idx_map(1, height_idx + 1);
     height_high = height_idx_map(1, height_idx);
 
-    height_passage_array(1, height_idx).height_interval = [height_low, height_high];
-    height_passage_array(1, height_idx).passage_pairs = valid_passage_pair;
-    height_passage_array(1, height_idx).passage_pts = passage_pts;
+    height_psg_array(1, height_idx).height_interval = [height_low, height_high];
+    height_psg_array(1, height_idx).passage_pairs = valid_psg_pair;
+    height_psg_array(1, height_idx).passage_pts = psg_pts;
 end
 
+%% Manage the final result [obs_idx1, obs_idx2, passage_pt1, passage_pt2, valid_height_low, valid_height_high]
+psg_num = size(height_psg_array(end).passage_pairs, 1);
+psg_info = zeros(psg_num, 8);
+psg_info(:, 1:2) = height_psg_array(end).passage_pairs;
+psg_info(:, 3:6) = height_psg_array(end).passage_pts;
+psg_info(:, 7:8) = repmat(height_psg_array(end).height_interval, psg_num, 1);
+
+for i = obs_num - 1 : -1 : 2
+    interval_psg_num = size(height_psg_array(1, i).passage_pairs, 1);
+    for j = 1 : interval_psg_num
+        psg_pair = height_psg_array(1, i).passage_pairs(j, :);
+        psg_pts = height_psg_array(1, i).passage_pts(j, :);
+        h = height_psg_array(1, i).height_interval;
+        existing = ismember(psg_info(:, 1:2), psg_pair, "rows");
+        if nnz(existing)
+            [row_idx, ~] = find(existing);
+            psg_info(row_idx, end) = h(1, 2);
+        else
+            new_row = [psg_pair, psg_pts, h];
+            psg_info = [psg_info; new_row];
+        end           
+    end
+end
 %% plotting 3D map
 fig_1 = figure('Position', [701 286 600 400]*2);
 cur_axes = show(omap3D);
@@ -113,23 +134,82 @@ for i = 1 : obs_num
    % p.FaceColor = [0.91, 0.91, 0.91]; 
    % p.LineStyle = 'none';
 end
-% for i = 1 : size(passage_pts, 1)
-%     hold on
-%     cur_height = min(obs_heights(valid_passage_pair(i, :)));
-%     cur_x = [passage_pts(i, 1), passage_pts(i, 1), passage_pts(i, 3), passage_pts(i, 3)];
-%     cur_y = [passage_pts(i, 2), passage_pts(i, 2), passage_pts(i, 4), passage_pts(i, 4)];
-%     cur_z = [0, cur_height, cur_height, 0];
-%     fill3(cur_x, cur_y, cur_z, 'r', 'FaceAlpha', 0.4, 'EdgeColor', 'r')
-% end    
-for height_idx = 2 : obs_num
-    passage_pts = height_passage_array(1, height_idx).passage_pts;
-    height_low = height_passage_array(1, height_idx).height_interval(1, 1);
-    height_high = height_passage_array(1, height_idx).height_interval(1, 2);
+for i = 1 : size(psg_info, 1)
+    hold on
+    cur_x = [psg_info(i, 3), psg_info(i, 3), psg_info(i, 5), psg_info(i, 5)];
+    cur_y = [psg_info(i, 4), psg_info(i, 4), psg_info(i, 6), psg_info(i, 6)];
+    cur_z = [psg_info(i, 7), psg_info(i, 8), psg_info(i, 8), psg_info(i, 7)];
+    fill3(cur_x, cur_y, cur_z, 'r', 'FaceAlpha', 0.4, 'EdgeColor', 'r')
+end    
+% for height_idx = 2 : obs_num
+%     passage_pts = height_passage_array(1, height_idx).passage_pts;
+%     height_low = height_passage_array(1, height_idx).height_interval(1, 1);
+%     height_high = height_passage_array(1, height_idx).height_interval(1, 2);
+%     for i = 1 : size(passage_pts, 1)
+%         hold on
+%         cur_x = [passage_pts(i, 1), passage_pts(i, 1), passage_pts(i, 3), passage_pts(i, 3)];
+%         cur_y = [passage_pts(i, 2), passage_pts(i, 2), passage_pts(i, 4), passage_pts(i, 4)];
+%         cur_z = [height_low, height_high, height_high, height_low];
+%         fill3(cur_x, cur_y, cur_z, 'r', 'FaceAlpha', 0.4, 'EdgeColor', 'r')
+%     end  
+% end
+cur_axes.View = [-41.6283   37.5455];
+colormap Gray
+cur_axes.CLim = [0, 0.1];
+cur_axes.Title.String = '';
+cur_axes.XLabel.String = '';
+cur_axes.YLabel.String = '';
+cur_axes.ZLabel.String = '';
+cur_axes.FontSize = 14;
+cur_axes.XTick = 0:200:map_length;
+cur_axes.YTick = 0:200:map_width;
+cur_axes.ZTick = 0:200:map_height;
+axis('equal')
+% material dull
+% set(gcf, 'Renderer', 'Painters')
+% print(fig_1, './Figures/3d_map_1214_0', '-depsc')
+
+%%
+%% plotting 3D map
+fig_2 = figure('Position', [701 286 600 400]*2);
+cur_axes = show(omap3D);
+% ground
+p = patch('XData', [0, map_length, map_length, 0, 0], 'YData', [0, 0, map_width, map_width, 0], ...
+          'ZData', [0, 0, 0, 0, 0]);
+p.FaceColor = [0.827, 0.827, 0.827]; 
+
+idx = [1, 2, 3, 4, 1; 1, 2, 6, 5, 1; 2, 3, 7, 6, 2; 3, 4, 8, 7, 3; 1, 4, 8, 5, 1; 5, 6, 7, 8, 5]';
+for i = 1 : obs_num
+    hold on
+    ground_pos = obs_array(1, i).Vertices;
+    h = obs_heights(1, i);
+    cuboid = [ground_pos(1, :), 0;
+             ground_pos(2, :), 0;
+             ground_pos(3, :), 0;
+             ground_pos(4, :), 0;
+             ground_pos(1, :), h;
+             ground_pos(2, :), h;
+             ground_pos(3, :), h;
+             ground_pos(4, :), h;             
+             ];
+   xc = cuboid(:, 1);
+   yc = cuboid(:, 2);
+   zc = cuboid(:, 3);
+   p = patch('XData', xc(idx), 'YData', yc(idx), 'ZData', zc(idx));
+   p.FaceColor = [0.827, 0.827, 0.827]; % light gray
+   % p.FaceColor = [0.91, 0.91, 0.91]; 
+   % p.LineStyle = 'none';
+end  
+for height_idx = obs_num : obs_num
+    passage_pts = height_psg_array(1, height_idx).passage_pts;
+    height_low = height_psg_array(1, height_idx).height_interval(1, 1);
+    height_high = height_psg_array(1, height_idx).height_interval(1, 2);
     for i = 1 : size(passage_pts, 1)
         hold on
+        cur_height = min(obs_heights(height_psg_array(1, height_idx).passage_pairs(i, :)));
         cur_x = [passage_pts(i, 1), passage_pts(i, 1), passage_pts(i, 3), passage_pts(i, 3)];
         cur_y = [passage_pts(i, 2), passage_pts(i, 2), passage_pts(i, 4), passage_pts(i, 4)];
-        cur_z = [height_low, height_high, height_high, height_low];
+        cur_z = [0, cur_height, cur_height, 0];
         fill3(cur_x, cur_y, cur_z, 'r', 'FaceAlpha', 0.4, 'EdgeColor', 'r')
     end  
 end
@@ -147,8 +227,7 @@ cur_axes.ZTick = 0:200:map_height;
 axis('equal')
 % material dull
 % set(gcf, 'Renderer', 'Painters')
-% print(fig_1, './Figures/3d_map_1214_0', '-depsc')
-
+% print(fig_2, './Figures/3d_map_1214_0', '-depsc')
 
 %% Required functions
 function [valid_passage_pair, valid_passage_visibility_pair, passage_pair_pts, passage_pair_visibility_pts] = extendedVisibilityCheck(obs_array)
