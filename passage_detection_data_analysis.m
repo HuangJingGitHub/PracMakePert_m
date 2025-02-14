@@ -77,6 +77,7 @@ end
 % load('passage_data_analyzed_varying_obs_sizes_20250121.mat') 
 % continuous varying side length 20 to 60, resolution 1.
 load('passage_data_analyzed_continuous_varying_obs_sizes_20250203.mat')
+
 %%
 fig_1 = figure('Position', [200, 200, 920, 570]);
 bar_1 = bar(obs_num_list, [res(:, 2), res(:, 4)], 'BarWidth', 1.2);
