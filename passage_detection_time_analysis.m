@@ -28,10 +28,14 @@ for i = 1 : length(file_list)
     if mod(obs_num, obs_num_step) ~= 0
         continue
     end
-    vaying_obs_side_str = raw_str_data{5}(1, end - 4 : end);
-    if strcmp(vaying_obs_side_str, ' true') == 0
+    % vaying_obs_side_str = raw_str_data{5}(1, end - 4 : end);
+    % if strcmp(vaying_obs_side_str, 'false') == 0
+    %     continue
+    % end
+    continuous_side_len_str = raw_str_data{5}(1, 1:10);
+    if strcmp(continuous_side_len_str, 'Continuous') == false
         continue
-    end
+    end    
     
     raw_data = zeros(50, 3);
     for col = 60:109
@@ -58,25 +62,24 @@ end
 
 %%
 fig_1 = figure('Position', [200, 200, 920, 570]);
-bar_1 = bar(obs_num_list, [res(:, 2), res(:, 4)], 'BarWidth', 1.2);
+plot(res(:, 1), res(:, 2), 'LineWidth', 2, 'Marker','^', 'MarkerSize', 10)
 hold on
-err_1 = errorbar(obs_num_list - 3.5, res(:, 2), res(:, 3), res(:, 3));
-err_1.Color = [0, 0, 0]; 
-err_1.LineStyle = 'none';
-err_1.LineWidth = 1;
-err_2 = errorbar(obs_num_list + 2.9, res(:, 4), res(:, 5), res(:, 5));
-err_2.Color = [0, 0, 0]; 
-err_2.LineStyle = 'none';
-err_2.LineWidth = 1;
+plot(res(:, 1), res(:, 4), 'LineWidth', 2, 'Marker','x', 'MarkerSize', 10)
+
+% load('passage_detection_time_data_fixed_obs_size_20250121.mat')
+% plot(res(:, 1), res(:, 2), 'LineWidth', 2, 'Marker','^', 'MarkerSize', 10)
+% hold on
+% plot(res(:, 1), res(:, 4), 'LineWidth', 2, 'Marker','x', 'MarkerSize', 10)
 
 set(gca, 'FontSize', 16)
-ylabel('Passage number', 'FontName', 'Arial', 'FontSize', 18);
+ylabel('Detection time (ms)', 'FontName', 'Arial', 'FontSize', 18);
 xlabel('Obstacle number', 'FontName', 'Arial', 'FontSize', 18);
-leg_1 = legend({'Gabriel condition', 'Only passage segments'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
+leg_1 = legend({'Direct check', 'Using Delaunary graph'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
                 %'Position', [0.18 0.8067 0.3576 0.0991]);
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'on';
-%ylim([0, 500])
+xlim([0, 205])
+ax.XTick = 0:20:200;
 set(gcf, 'Renderer', 'Painters')
-print(fig_1, '../img/Passage_Detection_Time_Obs_Num_40_0121', '-depsc')
+% print(fig_1, '../img/Passage_Detection_Time_Varying_Obs_Size', '-depsc')
