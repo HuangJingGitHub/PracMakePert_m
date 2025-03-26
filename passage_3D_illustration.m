@@ -62,7 +62,6 @@ setOccupancy(omap3D,xyzGround,1)
 valid_passage_num = size(valid_passage_pair, 1)
 valid_passage_visibility_num = size(valid_passage_visibility_pair, 1)
 
-
 %% plotting 3D map
 fig_1 = figure('Position', [701 286 540 420]);
 for i = 1 : size(passage_pts, 1)
