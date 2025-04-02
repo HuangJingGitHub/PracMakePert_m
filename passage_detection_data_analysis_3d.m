@@ -106,5 +106,27 @@ set(gcf, 'Renderer', 'Painters')
 drawnow
 pause(0.1)
 fig_1.Position = [200, 200, 920, 570];
-print(fig_1, '../../img/Passage_Cell_Num_3D', '-depsc')
+%print(fig_1, '../../img/Passage_Cell_Num_3D', '-depsc')
 
+%%
+fig_2 = figure('Position', [200, 200, 920, 570]);
+plot(res(:, 1), res(:, 8), 'LineWidth', 2, 'Marker','^', 'MarkerSize', 10)
+hold on
+plot(res(:, 1), res(:, 9), 'LineWidth', 2, 'Marker','x', 'MarkerSize', 10)
+
+set(gca, 'FontSize', 16)
+ylabel('Detection time (ms)', 'FontName', 'Arial', 'FontSize', 18);
+xlabel('Obstacle number', 'FontName', 'Arial', 'FontSize', 18);
+leg_1 = legend({'3D passage detection', 'Planar passage detection'},'FontName', 'Arial', 'FontSize', 18, 'Location', 'northwest');
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'on';
+xlim([0, 205])
+ax.XTick = 0:20:200;
+ylim([0, 220])
+%ax.YTick = 0:200:1000;
+set(gcf, 'Renderer', 'Painters')
+drawnow
+pause(0.1)
+fig_2.Position = [400, 400, 920, 570];
+print(fig_2, '../../img/Passage_Detection_Time_3D', '-depsc')
